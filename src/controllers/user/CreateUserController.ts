@@ -3,7 +3,7 @@ import { CreateUserService } from '../../services/user/CreateUserService'
 
 export class CreateUserController {
   async handle(req: Request, res: Response) {
-    const { name, tel, password } = req.body
+    const { name, tel, password, role } = req.body
 
     if (!tel) {
       return res.status(400).json({
@@ -12,7 +12,7 @@ export class CreateUserController {
     }
     const createUserService = new CreateUserService()
 
-    const user = await createUserService.execute({ name, tel, password })
+    const user = await createUserService.execute({ name, tel, password, role })
 
     return res.json(user)
   }
