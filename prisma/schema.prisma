@@ -35,7 +35,7 @@ model Client {
   address    Address  @relation(fields: [address_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  Order      Order[]
+  order      Order[]
 
   @@map("clients")
 }
@@ -48,34 +48,33 @@ model Address {
   ponto_de_referencia String
   created_at          DateTime @default(now())
   updated_at          DateTime @default(now())
-  Client              Client[]
+  client              Client[]
 
   @@map("addresses")
 }
 
 model Product {
-  id           String         @id @default(uuid())
-  name         String
-  price        Float
-  min_quantity Int
-  banner       String         @default("")
-  category_id  String
-  category     Category       @relation(fields: [category_id], references: [id])
-  stock_id     String
-  stock        Stock          @relation(fields: [stock_id], references: [id])
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @default(now())
-  OrderProduct OrderProduct[]
+  id            String         @id @default(uuid())
+  name          String
+  price         Float
+  min_quantity  Int
+  banner        String         @default("")
+  category_id   String
+  category      Category       @relation(fields: [category_id], references: [id])
+  stock         Stock?
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @default(now())
+  order_product OrderProduct[]
 
   @@map("products")
 }
 
 model Category {
   id         String    @id @default(uuid())
-  name       String
+  name       String    @unique
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
-  Product    Product[]
+  product    Product[]
 
   @@map("categories")
 }
@@ -93,7 +92,7 @@ model Bolo {
   order      Order     @relation(fields: [order_id], references: [id])
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
-  Recheio    Recheio[]
+  recheio    Recheio[]
 
   @@map("bolos")
 }
@@ -135,8 +134,8 @@ model Order {
   client       Client         @relation(fields: [client_id], references: [id])
   created_at   DateTime       @default(now())
   updated_at   DateTime       @default(now())
-  Bolo         Bolo[]
-  OrderProduct OrderProduct[]
+  bolo         Bolo[]
+  orderProduct OrderProduct[]
 
   @@map("orders")
 }
@@ -156,11 +155,12 @@ model OrderProduct {
 }
 
 model Stock {
-  id         String    @id @default(uuid())
+  id         String   @id @default(uuid())
   quantity   Int
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now())
-  Product    Product[]
+  product_id String   @unique
+  product    Product  @relation(fields: [product_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
 
   @@map("stocks")
 }
