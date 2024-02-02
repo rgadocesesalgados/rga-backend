@@ -1,15 +1,9 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
+import { PayLoad, RequestWithUser } from './isAuthenticated'
 import { verify } from 'jsonwebtoken'
+import { prismaClient } from '../prisma'
 
-export interface PayLoad {
-  sub: string
-}
-
-export interface RequestWithUser extends Request {
-  user_id: string
-}
-
-export const isAuthenticated = (
+export const isAdmin = async (
   req: RequestWithUser,
   res: Response,
   next: NextFunction
@@ -21,10 +15,20 @@ export const isAuthenticated = (
   }
 
   const [, token] = authToken.split(' ')
+
   try {
     const { sub } = verify(token, process.env.JWT_SECRET) as PayLoad
 
-    req.user_id = sub
+    const userIsAdmin = await prismaClient.user.findUnique({
+      where: {
+        id: sub,
+        role: 'ADMIN',
+      },
+    })
+
+    if (!userIsAdmin) {
+      return res.status(401).end()
+    }
 
     return next()
   } catch (err) {
