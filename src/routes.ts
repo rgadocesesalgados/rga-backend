@@ -4,6 +4,7 @@ import { AuthUserController } from './controllers/user/AuthUserController'
 import { isAuthenticated } from './middlewares/isAuthenticated'
 import { isAdmin } from './middlewares/isAdnin'
 import { CreateProductController } from './controllers/product/CreateProductController'
+import { ListProductController } from './controllers/product/ListProductController'
 
 const routes = Router()
 
@@ -26,5 +27,7 @@ routes.post(
   isAdmin,
   new CreateProductController().handle
 )
+
+routes.get('/product', new ListProductController().handle)
 
 export { routes }
