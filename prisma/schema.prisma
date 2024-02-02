@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  tel        String   @unique
+  password   String
+  role       Role     @default(USER)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Client {
+  id         String   @id @default(uuid())
+  name       String
+  tel        String   @unique
+  address_id String
+  address    Address  @relation(fields: [address_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Order      Order[]
+
+  @@map("clients")
+}
+
+model Address {
+  id                  String   @id @default(uuid())
+  rua                 String
+  numero              String
+  bairro              String
+  ponto_de_referencia String
+  created_at          DateTime @default(now())
+  updated_at          DateTime @default(now())
+  Client              Client[]
+
+  @@map("addresses")
+}
+
+model Product {
+  id           String         @id @default(uuid())
+  name         String
+  price        Float
+  min_quantity Int
+  banner       String         @default("")
+  category_id  String
+  category     Category       @relation(fields: [category_id], references: [id])
+  stock_id     String
+  stock        Stock          @relation(fields: [stock_id], references: [id])
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now())
+  OrderProduct OrderProduct[]
+
+  @@map("products")
+}
+
+model Category {
+  id         String    @id @default(uuid())
+  name       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  Product    Product[]
+
+  @@map("categories")
+}
+
+model Bolo {
+  id         String    @id @default(uuid())
+  peso       Float
+  price      Float
+  cobertura  String
+  decoracao  String
+  banner     String    @default("")
+  topper_id  String
+  topper     Topper    @relation(fields: [topper_id], references: [id])
+  order_id   String
+  order      Order     @relation(fields: [order_id], references: [id])
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  Recheio    Recheio[]
+
+  @@map("bolos")
+}
+
+model Topper {
+  id         String   @id @default(uuid())
+  tema       String
+  price      Float
+  banner     String   @default("")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Bolo       Bolo[]
+
+  @@map("toppers")
+}
+
+model Recheio {
+  id            String   @id @default(uuid())
+  name          String
+  price         Float
+  is_pesado     Boolean  @default(false)
+  to_bento_cake Boolean  @default(true)
+  banner        String   @default("")
+  bolo          Bolo[]
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+
+  @@map("recheios")
+}
+
+model Order {
+  id           String         @id @default(uuid())
+  data         DateTime
+  delivery     Boolean        @default(false)
+  total        Float
+  payment      String
+  draft        Boolean        @default(true)
+  client_id    String
+  client       Client         @relation(fields: [client_id], references: [id])
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @default(now())
+  Bolo         Bolo[]
+  OrderProduct OrderProduct[]
+
+  @@map("orders")
+}
+
+model OrderProduct {
+  id         String   @id @default(uuid())
+  order_id   String
+  order      Order    @relation(fields: [order_id], references: [id])
+  product_id String
+  product    Product  @relation(fields: [product_id], references: [id])
+  quantity   Int
+  price      Float
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  @@map("order_products")
+}
+
+model Stock {
+  id         String    @id @default(uuid())
+  quantity   Int
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  Product    Product[]
+
+  @@map("stocks")
+}
