@@ -6,6 +6,7 @@ import { isAdmin } from './middlewares/isAdnin'
 import { CreateProductController } from './controllers/product/CreateProductController'
 import { ListProductController } from './controllers/product/ListProductController'
 import { EditeProductController } from './controllers/product/EditeProductController'
+import { RemoveProductController } from './controllers/product/RemoveProductController'
 
 const routes = Router()
 
@@ -36,6 +37,13 @@ routes.patch(
   isAuthenticated,
   isAdmin,
   new EditeProductController().handle
+)
+
+routes.delete(
+  '/product/remove',
+  isAuthenticated,
+  isAdmin,
+  new RemoveProductController().handle
 )
 
 export { routes }
