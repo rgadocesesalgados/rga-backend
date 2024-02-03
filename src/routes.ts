@@ -7,6 +7,10 @@ import { CreateProductController } from './controllers/product/CreateProductCont
 import { ListProductController } from './controllers/product/ListProductController'
 import { EditeProductController } from './controllers/product/EditeProductController'
 import { RemoveProductController } from './controllers/product/RemoveProductController'
+import { CreateCategoryController } from './controllers/category/CreateCategoryController'
+import { ListCategoryController } from './controllers/category/ListCategoryController'
+import { EditCategoryController } from './controllers/category/EditCategoryController'
+import { RemoveCategoryController } from './controllers/category/RemoveCategoryController'
 
 const routes = Router()
 
@@ -45,5 +49,13 @@ routes.delete(
   isAdmin,
   new RemoveProductController().handle
 )
+
+routes.post('/category', new CreateCategoryController().handle)
+
+routes.get('/category', new ListCategoryController().handle)
+
+routes.patch('/category', new EditCategoryController().handle)
+
+routes.delete('/category', new RemoveCategoryController().handle)
 
 export { routes }
