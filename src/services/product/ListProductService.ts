@@ -9,9 +9,7 @@ export class ListProductService {
         price: true,
         min_quantity: true,
         banner: true,
-        category: {
-          select: { name: true },
-        },
+        category_name: true,
         stock: {
           select: {
             quantity: true,
