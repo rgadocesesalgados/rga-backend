@@ -59,8 +59,8 @@ model Product {
   price         Float
   min_quantity  Int
   banner        String         @default("")
-  category_id   String
-  category      Category       @relation(fields: [category_id], references: [id])
+  category_name String
+  category      Category       @relation(fields: [category_name], references: [name])
   stock         Stock?
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now())
@@ -70,7 +70,6 @@ model Product {
 }
 
 model Category {
-  id         String    @id @default(uuid())
   name       String    @unique
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
