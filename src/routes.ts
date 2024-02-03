@@ -5,6 +5,7 @@ import { isAuthenticated } from './middlewares/isAuthenticated'
 import { isAdmin } from './middlewares/isAdnin'
 import { CreateProductController } from './controllers/product/CreateProductController'
 import { ListProductController } from './controllers/product/ListProductController'
+import { EditeProductController } from './controllers/product/EditeProductController'
 
 const routes = Router()
 
@@ -29,5 +30,12 @@ routes.post(
 )
 
 routes.get('/product', new ListProductController().handle)
+
+routes.patch(
+  '/product/edit',
+  isAuthenticated,
+  isAdmin,
+  new EditeProductController().handle
+)
 
 export { routes }

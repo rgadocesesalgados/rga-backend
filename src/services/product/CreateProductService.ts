@@ -1,6 +1,6 @@
 import { prismaClient } from '../../prisma'
 
-interface ProductProps {
+export interface ProductProps {
   name: string
   price: number
   min_quantity: number
