@@ -16,6 +16,8 @@ import { ListRecheioController } from './controllers/recheio/ListRecheioControll
 import { EditRecheioController } from './controllers/recheio/EditRecheioController'
 import { RemoveRecheioController } from './controllers/recheio/RemoveCategoryController'
 import { CreateClientController } from './controllers/client/CreateClientController'
+import { EditClientController } from './controllers/client/EditClientController'
+import { ListClientController } from './controllers/client/ListClientController'
 
 const routes = Router()
 
@@ -106,6 +108,15 @@ routes.post(
   isAuthenticated,
   isAdmin,
   new CreateClientController().handle
+)
+
+routes.get('/client', new ListClientController().handle)
+
+routes.patch(
+  '/client',
+  isAuthenticated,
+  isAdmin,
+  new EditClientController().handle
 )
 
 export { routes }
