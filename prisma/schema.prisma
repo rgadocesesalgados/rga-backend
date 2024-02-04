@@ -85,8 +85,8 @@ model Bolo {
   cobertura  String
   decoracao  String
   banner     String    @default("")
-  topper_id  String
-  topper     Topper    @relation(fields: [topper_id], references: [id])
+  topper_id  String?   @unique
+  topper     Topper?   @relation(fields: [topper_id], references: [id])
   order_id   String
   order      Order     @relation(fields: [order_id], references: [id])
   created_at DateTime  @default(now())
@@ -103,7 +103,7 @@ model Topper {
   banner     String   @default("")
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  Bolo       Bolo[]
+  bolo       Bolo?
 
   @@map("toppers")
 }
