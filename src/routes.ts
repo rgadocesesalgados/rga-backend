@@ -18,6 +18,7 @@ import { RemoveRecheioController } from './controllers/recheio/RemoveCategoryCon
 import { CreateClientController } from './controllers/client/CreateClientController'
 import { EditClientController } from './controllers/client/EditClientController'
 import { ListClientController } from './controllers/client/ListClientController'
+import { CreateOrderController } from './controllers/order/CreateOederController'
 
 const routes = Router()
 
@@ -118,5 +119,7 @@ routes.patch(
   isAdmin,
   new EditClientController().handle
 )
+
+routes.post('/order', isAuthenticated, new CreateOrderController().handle)
 
 export { routes }
