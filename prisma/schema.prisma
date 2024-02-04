@@ -49,6 +49,7 @@ model Address {
   created_at          DateTime @default(now())
   updated_at          DateTime @default(now())
   client              Client[]
+  order               Order[]
 
   @@map("addresses")
 }
@@ -124,10 +125,10 @@ model Recheio {
 
 model Order {
   id           String         @id @default(uuid())
-  data         DateTime
+  data         DateTime?
   delivery     Boolean        @default(false)
-  total        Float
-  payment      String
+  total        Float          @default(0)
+  payment      Payment        @default(MONEY)
   draft        Boolean        @default(true)
   client_id    String
   client       Client         @relation(fields: [client_id], references: [id])
@@ -135,8 +136,20 @@ model Order {
   updated_at   DateTime       @default(now())
   bolo         Bolo[]
   orderProduct OrderProduct[]
+  address      Address?       @relation(fields: [address_id], references: [id])
+  address_id   String?
 
   @@map("orders")
+}
+
+enum Payment {
+  CREDIT
+  DEBIT
+  MONEY
+  PIX
+  DUPLICATE
+
+  @@map("payment")
 }
 
 model OrderProduct {
