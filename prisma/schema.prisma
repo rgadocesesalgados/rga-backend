@@ -43,7 +43,7 @@ model Client {
 model Address {
   id                  String   @id @default(uuid())
   rua                 String
-  numero              String
+  numero              Int
   bairro              String
   ponto_de_referencia String
   created_at          DateTime @default(now())
