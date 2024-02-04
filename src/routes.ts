@@ -11,6 +11,9 @@ import { CreateCategoryController } from './controllers/category/CreateCategoryC
 import { ListCategoryController } from './controllers/category/ListCategoryController'
 import { EditCategoryController } from './controllers/category/EditCategoryController'
 import { RemoveCategoryController } from './controllers/category/RemoveCategoryController'
+import { CreateRecheioController } from './controllers/recheio/CreateRecheioController'
+import { ListRecheioController } from './controllers/recheio/ListRecheioController'
+import { EditRecheioController } from './controllers/recheio/EditRecheioController'
 
 const routes = Router()
 
@@ -50,12 +53,43 @@ routes.delete(
   new RemoveProductController().handle
 )
 
-routes.post('/category', new CreateCategoryController().handle)
+routes.post(
+  '/category',
+  isAuthenticated,
+  isAdmin,
+  new CreateCategoryController().handle
+)
 
 routes.get('/category', new ListCategoryController().handle)
 
-routes.patch('/category', new EditCategoryController().handle)
+routes.patch(
+  '/category',
+  isAuthenticated,
+  isAdmin,
+  new EditCategoryController().handle
+)
 
-routes.delete('/category', new RemoveCategoryController().handle)
+routes.delete(
+  '/category',
+  isAuthenticated,
+  isAdmin,
+  new RemoveCategoryController().handle
+)
+
+routes.post(
+  '/recheio',
+  isAuthenticated,
+  isAdmin,
+  new CreateRecheioController().handle
+)
+
+routes.get('/recheio', new ListRecheioController().handle)
+
+routes.patch(
+  '/recheio',
+  isAuthenticated,
+  isAdmin,
+  new EditRecheioController().handle
+)
 
 export { routes }

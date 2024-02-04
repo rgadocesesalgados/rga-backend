@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { RequestWithUser } from '../../middlewares/isAuthenticated'
-import { ListRecheioService } from '../../services/recheio/ListCategoryService'
+import { ListRecheioService } from '../../services/recheio/ListRecheioService'
 
 export class ListRecheioController {
   async handle(req: RequestWithUser, res: Response) {
