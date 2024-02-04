@@ -14,6 +14,7 @@ import { RemoveCategoryController } from './controllers/category/RemoveCategoryC
 import { CreateRecheioController } from './controllers/recheio/CreateRecheioController'
 import { ListRecheioController } from './controllers/recheio/ListRecheioController'
 import { EditRecheioController } from './controllers/recheio/EditRecheioController'
+import { RemoveRecheioController } from './controllers/recheio/RemoveCategoryController'
 
 const routes = Router()
 
@@ -90,6 +91,13 @@ routes.patch(
   isAuthenticated,
   isAdmin,
   new EditRecheioController().handle
+)
+
+routes.delete(
+  '/recheio',
+  isAuthenticated,
+  isAdmin,
+  new RemoveRecheioController().handle
 )
 
 export { routes }
