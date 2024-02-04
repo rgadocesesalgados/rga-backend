@@ -15,6 +15,7 @@ import { CreateRecheioController } from './controllers/recheio/CreateRecheioCont
 import { ListRecheioController } from './controllers/recheio/ListRecheioController'
 import { EditRecheioController } from './controllers/recheio/EditRecheioController'
 import { RemoveRecheioController } from './controllers/recheio/RemoveCategoryController'
+import { CreateClientController } from './controllers/client/CreateClientController'
 
 const routes = Router()
 
@@ -98,6 +99,13 @@ routes.delete(
   isAuthenticated,
   isAdmin,
   new RemoveRecheioController().handle
+)
+
+routes.post(
+  '/client',
+  isAuthenticated,
+  isAdmin,
+  new CreateClientController().handle
 )
 
 export { routes }
