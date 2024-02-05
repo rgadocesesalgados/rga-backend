@@ -7,8 +7,6 @@ export interface OrderProps {
   total: number
   payment: 'DEBIT' | 'CREDIT' | 'PIX' | 'MONEY' | 'DUPLICATE'
   draft: boolean
-  client_id: string
-  address_id: string
   address?: AddressProps
 }
 

@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { RequestWithUser } from '../../middlewares/isAuthenticated'
-import { CreateOrderService } from '../../services/order/createOrderService'
+import { CreateOrderService } from '../../services/order/CreateOrderService'
 
 export class CreateOrderController {
   async handle(req: RequestWithUser, res: Response) {
