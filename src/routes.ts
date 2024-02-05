@@ -19,6 +19,8 @@ import { CreateClientController } from './controllers/client/CreateClientControl
 import { EditClientController } from './controllers/client/EditClientController'
 import { ListClientController } from './controllers/client/ListClientController'
 import { CreateOrderController } from './controllers/order/CreateOederController'
+import { AddProductOrderController } from './controllers/order/AddProductOrderController'
+import { ListOrderController } from './controllers/order/ListOrderController'
 
 const routes = Router()
 
@@ -121,5 +123,13 @@ routes.patch(
 )
 
 routes.post('/order', isAuthenticated, new CreateOrderController().handle)
+
+routes.get('/order', isAuthenticated, new ListOrderController().handle)
+
+routes.post(
+  '/order/add-product',
+  isAuthenticated,
+  new AddProductOrderController().handle
+)
 
 export { routes }
