@@ -23,6 +23,7 @@ import { AddProductOrderController } from './controllers/order/order_product/Add
 import { ListOrderController } from './controllers/order/ListOrderController'
 import { EditProductOrderController } from './controllers/order/order_product/EditProductOrderController'
 import { RemoveProductOrderController } from './controllers/order/order_product/RemoveProductOrderController'
+import { CreateBoloController } from './controllers/bolo/CreateBoloController'
 
 const routes = Router()
 
@@ -145,5 +146,7 @@ routes.delete(
   isAuthenticated,
   new RemoveProductOrderController().handle
 )
+
+routes.post('/bolo', isAuthenticated, new CreateBoloController().handle)
 
 export { routes }
