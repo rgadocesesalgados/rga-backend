@@ -24,6 +24,7 @@ import { ListOrderController } from './controllers/order/ListOrderController'
 import { EditProductOrderController } from './controllers/order/order_product/EditProductOrderController'
 import { RemoveProductOrderController } from './controllers/order/order_product/RemoveProductOrderController'
 import { CreateBoloController } from './controllers/bolo/CreateBoloController'
+import { AddRecheioController } from './controllers/bolo/AddRecheioController'
 
 const routes = Router()
 
@@ -148,5 +149,11 @@ routes.delete(
 )
 
 routes.post('/bolo', isAuthenticated, new CreateBoloController().handle)
+
+routes.patch(
+  '/bolo/add-recheio',
+  isAuthenticated,
+  new AddRecheioController().handle
+)
 
 export { routes }
