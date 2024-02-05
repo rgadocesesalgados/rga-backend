@@ -1,6 +1,6 @@
 import { Response } from 'express'
-import { RequestWithUser } from '../../middlewares/isAuthenticated'
-import { EditProductOrderService } from '../../services/order/EditProductOrderService'
+import { RequestWithUser } from '../../../middlewares/isAuthenticated'
+import { EditProductOrderService } from '../../../services/order/order_product/EditProductOrderService'
 
 export class EditProductOrderController {
   async handle(req: RequestWithUser, res: Response) {

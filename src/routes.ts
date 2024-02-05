@@ -19,9 +19,10 @@ import { CreateClientController } from './controllers/client/CreateClientControl
 import { EditClientController } from './controllers/client/EditClientController'
 import { ListClientController } from './controllers/client/ListClientController'
 import { CreateOrderController } from './controllers/order/CreateOederController'
-import { AddProductOrderController } from './controllers/order/AddProductOrderController'
+import { AddProductOrderController } from './controllers/order/order_product/AddProductOrderController'
 import { ListOrderController } from './controllers/order/ListOrderController'
-import { EditProductOrderController } from './controllers/order/EditProductOrderController'
+import { EditProductOrderController } from './controllers/order/order_product/EditProductOrderController'
+import { RemoveProductOrderController } from './controllers/order/order_product/RemoveProductOrderController'
 
 const routes = Router()
 
@@ -137,6 +138,12 @@ routes.patch(
   '/order/edit-product',
   isAuthenticated,
   new EditProductOrderController().handle
+)
+
+routes.delete(
+  '/order/remove-product',
+  isAuthenticated,
+  new RemoveProductOrderController().handle
 )
 
 export { routes }

@@ -1,4 +1,4 @@
-import { prismaClient } from '../../prisma'
+import { prismaClient } from '../../../prisma'
 
 export interface AddProductOrderProps {
   order_id: string
