@@ -81,30 +81,34 @@ model Category {
 
 model Bolo {
   id         String    @id @default(uuid())
-  peso       Float
-  price      Float
-  cobertura  String
-  decoracao  String
-  banner     String    @default("")
-  topper_id  String?   @unique
-  topper     Topper?   @relation(fields: [topper_id], references: [id])
-  order_id   String
   order      Order     @relation(fields: [order_id], references: [id])
+  order_id   String
+  peso       Float?
+  recheio    Recheio[]
+  massa      String?
+  cobertura  String?
+  decoracao  String?
+  banner     String    @default("")
+  topper     Topper?   @relation(fields: [topper_id], references: [id])
+  topper_id  String?   @unique
+  price      Float?
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
-  recheio    Recheio[]
 
   @@map("bolos")
 }
 
 model Topper {
-  id         String   @id @default(uuid())
-  tema       String
-  price      Float
-  banner     String   @default("")
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-  bolo       Bolo?
+  id          String   @id @default(uuid())
+  bolo        Bolo?
+  tema        String
+  name        String?
+  idade       Int?
+  price       Float    @default(15)
+  description String?
+  banner      String   @default("")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
 
   @@map("toppers")
 }
@@ -124,22 +128,24 @@ model Recheio {
 }
 
 model Order {
-  id           String         @id @default(uuid())
-  client       Client         @relation(fields: [client_id], references: [id])
-  client_id    String
-  data         DateTime?
-  bolo         Bolo[]
-  orderProduct OrderProduct[]
-  delivery     Boolean        @default(false)
-  address      Address?       @relation(fields: [address_id], references: [id])
-  address_id   String?
-  payment      Payment        @default(MONEY)
-  total        Float          @default(0)
-  draft        Boolean        @default(true)
-  retired      Boolean        @default(false)
-  paid         Boolean        @default(false)
-  created_at   DateTime       @default(now())
-  updated_at   DateTime       @default(now())
+  id            String         @id @default(uuid())
+  client        Client         @relation(fields: [client_id], references: [id])
+  client_id     String
+  data          DateTime?
+  bolo          Bolo[]
+  cor_forminhas String?
+  orderProduct  OrderProduct[]
+  observations  String?
+  delivery      Boolean        @default(false)
+  address       Address?       @relation(fields: [address_id], references: [id])
+  address_id    String?
+  payment       Payment        @default(MONEY)
+  total         Float          @default(0)
+  draft         Boolean        @default(true)
+  retired       Boolean        @default(false)
+  paid          Boolean        @default(false)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @default(now())
 
   @@map("orders")
 }
