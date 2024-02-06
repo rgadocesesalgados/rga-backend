@@ -28,6 +28,7 @@ import { AddRecheioController } from './controllers/bolo/AddRecheioController'
 import { DeleteRecheioController } from './controllers/bolo/DeleteRecheioController'
 import { CreateTopperController } from './controllers/topper/CreateTopperController'
 import { DeleteTopperController } from './controllers/topper/DeleteTopperController'
+import { EditOrderController } from './controllers/order/EditOrderController'
 
 const routes = Router()
 
@@ -132,6 +133,8 @@ routes.patch(
 routes.post('/order', isAuthenticated, new CreateOrderController().handle)
 
 routes.get('/order', isAuthenticated, new ListOrderController().handle)
+
+routes.patch('/order', isAuthenticated, new EditOrderController().handle)
 
 routes.post(
   '/order/add-product',
