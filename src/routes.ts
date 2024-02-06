@@ -14,7 +14,7 @@ import { RemoveCategoryController } from './controllers/category/RemoveCategoryC
 import { CreateRecheioController } from './controllers/recheio/CreateRecheioController'
 import { ListRecheioController } from './controllers/recheio/ListRecheioController'
 import { EditRecheioController } from './controllers/recheio/EditRecheioController'
-import { RemoveRecheioController } from './controllers/recheio/RemoveCategoryController'
+import { RemoveRecheioController } from './controllers/recheio/RemoveRecheioController'
 import { CreateClientController } from './controllers/client/CreateClientController'
 import { EditClientController } from './controllers/client/EditClientController'
 import { ListClientController } from './controllers/client/ListClientController'
@@ -25,6 +25,7 @@ import { EditProductOrderController } from './controllers/order/order_product/Ed
 import { RemoveProductOrderController } from './controllers/order/order_product/RemoveProductOrderController'
 import { CreateBoloController } from './controllers/bolo/CreateBoloController'
 import { AddRecheioController } from './controllers/bolo/AddRecheioController'
+import { DeleteRecheioController } from './controllers/bolo/DeleteRecheioController'
 
 const routes = Router()
 
@@ -156,4 +157,9 @@ routes.patch(
   new AddRecheioController().handle
 )
 
+routes.patch(
+  '/bolo/delete-recheio',
+  isAuthenticated,
+  new DeleteRecheioController().handle
+)
 export { routes }
