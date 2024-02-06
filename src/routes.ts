@@ -27,6 +27,7 @@ import { CreateBoloController } from './controllers/bolo/CreateBoloController'
 import { AddRecheioController } from './controllers/bolo/AddRecheioController'
 import { DeleteRecheioController } from './controllers/bolo/DeleteRecheioController'
 import { CreateTopperController } from './controllers/topper/CreateTopperController'
+import { DeleteTopperController } from './controllers/topper/DeleteTopperController'
 
 const routes = Router()
 
@@ -168,5 +169,11 @@ routes.post(
   '/bolo/add-topper',
   isAuthenticated,
   new CreateTopperController().handle
+)
+
+routes.delete(
+  '/bolo/delete-topper',
+  isAuthenticated,
+  new DeleteTopperController().handle
 )
 export { routes }
