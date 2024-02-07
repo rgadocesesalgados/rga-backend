@@ -1,5 +1,4 @@
 import { prismaClient } from '../../prisma'
-import { AddressProps } from '../client/CreateClientService'
 
 export interface OrderProps {
   client_id: string
@@ -9,6 +8,7 @@ export interface OrderProps {
   delivery: boolean
   payment: 'DEBIT' | 'CREDIT' | 'PIX' | 'MONEY' | 'DUPLICATE'
   total: number
+  address_id: string
   draft: boolean
   retired: boolean
   paid: boolean
@@ -23,6 +23,7 @@ export class EditeOrderService {
     delivery,
     payment,
     total,
+    address_id,
     draft,
     retired,
     paid,
@@ -40,6 +41,7 @@ export class EditeOrderService {
         draft,
         retired,
         paid,
+        address_id: delivery ? address_id : null,
       },
     })
 

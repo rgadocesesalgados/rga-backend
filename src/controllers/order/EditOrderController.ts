@@ -22,6 +22,7 @@ export class EditOrderController {
       draft,
       retired,
       paid,
+      address_id,
     } = req.body as OrderProps
 
     const editOrderService = new EditeOrderService()
@@ -38,6 +39,7 @@ export class EditOrderController {
       draft,
       retired,
       paid,
+      address_id,
     })
 
     return res.json(order)
