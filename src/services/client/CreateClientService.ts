@@ -1,48 +1,27 @@
 import { prismaClient } from '../../prisma'
+import { AddressProps } from '../address/CreateAddressService'
 
 export interface ClientProps {
   name: string
   tel: string
-  address: AddressProps
-}
-
-export interface AddressProps {
-  rua: string
-  numero: number
-  bairro: string
-  ponto_de_referencia: string
+  address_id: string
 }
 
 export class CreateClientService {
-  async execute({
-    name,
-    tel,
-    address: { rua, numero, bairro, ponto_de_referencia },
-  }: ClientProps) {
-    if (!name || !tel || !rua || !numero || !bairro || !ponto_de_referencia) {
-      throw new Error('All fields are required')
-    }
-
+  async execute({ name, tel, address_id }: ClientProps) {
     const clientAlreadyExists = await prismaClient.client.findFirst({
       where: { tel },
     })
 
     if (clientAlreadyExists) {
-      throw new Error('Client already exists')
+      throw new Error('Esse cliente ja existe.')
     }
 
     const client = await prismaClient.client.create({
       data: {
         name,
         tel,
-        address: {
-          create: {
-            rua,
-            numero,
-            bairro,
-            ponto_de_referencia,
-          },
-        },
+        address_id,
       },
     })
 
