@@ -5,12 +5,9 @@ import { EditClientService } from '../../services/client/EditClientService'
 
 export class EditClientController {
   async handle(req: RequestWithUser, res: Response) {
-    const {
-      id,
-      name,
-      tel,
-      address: { rua, numero, bairro, ponto_de_referencia },
-    } = req.body as ClientProps & { id: string }
+    const { name, tel, address_id } = req.body as ClientProps
+
+    const id = req.query.id as string
 
     if (!id) throw new Error('Id is required')
 
@@ -20,7 +17,7 @@ export class EditClientController {
       id,
       name,
       tel,
-      address: { rua, numero, bairro, ponto_de_referencia },
+      address_id,
     })
 
     return res.json(client)

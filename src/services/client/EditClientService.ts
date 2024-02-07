@@ -2,12 +2,7 @@ import { prismaClient } from '../../prisma'
 import { ClientProps } from './CreateClientService'
 
 export class EditClientService {
-  async execute({
-    id,
-    name,
-    tel,
-    address: { rua, numero, bairro, ponto_de_referencia },
-  }: ClientProps & { id: string }) {
+  async execute({ id, name, tel, address_id }: ClientProps & { id: string }) {
     const clientAlreadyExists = await prismaClient.client.findFirst({
       where: { tel },
     })
@@ -23,14 +18,7 @@ export class EditClientService {
       data: {
         name,
         tel,
-        address: {
-          update: {
-            rua,
-            numero,
-            bairro,
-            ponto_de_referencia,
-          },
-        },
+        address_id,
       },
       include: {
         address: true,
