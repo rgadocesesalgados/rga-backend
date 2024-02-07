@@ -46,6 +46,7 @@ model Address {
   numero              Int
   bairro              String
   ponto_de_referencia String
+  cidade              String
   created_at          DateTime @default(now())
   updated_at          DateTime @default(now())
   client              Client[]
