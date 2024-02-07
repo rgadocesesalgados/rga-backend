@@ -4,7 +4,7 @@ import { CreateOrderService } from '../../services/order/CreateOrderService'
 
 export class CreateOrderController {
   async handle(req: RequestWithUser, res: Response) {
-    const { client_id } = req.body
+    const client_id = req.query.client_id as string
 
     const createOrderService = new CreateOrderService()
 
