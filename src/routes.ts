@@ -30,6 +30,7 @@ import { CreateTopperController } from './controllers/topper/CreateTopperControl
 import { DeleteTopperController } from './controllers/topper/DeleteTopperController'
 import { EditOrderController } from './controllers/order/EditOrderController'
 import { RemoveOrderController } from './controllers/order/RemoveOrderController'
+import { CreateAddressController } from './controllers/address/CreateAddressController'
 
 const routes = Router()
 
@@ -114,6 +115,8 @@ routes.delete(
   isAdmin,
   new RemoveRecheioController().handle
 )
+
+routes.post('/address', isAuthenticated, new CreateAddressController().handle)
 
 routes.post(
   '/client',
