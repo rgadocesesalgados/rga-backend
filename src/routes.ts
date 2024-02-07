@@ -31,6 +31,7 @@ import { DeleteTopperController } from './controllers/topper/DeleteTopperControl
 import { EditOrderController } from './controllers/order/EditOrderController'
 import { RemoveOrderController } from './controllers/order/RemoveOrderController'
 import { CreateAddressController } from './controllers/address/CreateAddressController'
+import { ListAddressController } from './controllers/address/ListAddressController'
 
 const routes = Router()
 
@@ -117,6 +118,8 @@ routes.delete(
 )
 
 routes.post('/address', isAuthenticated, new CreateAddressController().handle)
+
+routes.get('/address', isAuthenticated, new ListAddressController().handle)
 
 routes.post(
   '/client',
