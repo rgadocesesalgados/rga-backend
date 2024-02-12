@@ -33,6 +33,7 @@ import { RemoveOrderController } from './controllers/order/RemoveOrderController
 import { CreateAddressController } from './controllers/address/CreateAddressController'
 import { ListAddressController } from './controllers/address/ListAddressController'
 import { EditAddressController } from './controllers/address/EditAddressController'
+import { UserDetailsController } from './controllers/user/UserDetailsController'
 
 const routes = Router()
 
@@ -48,6 +49,8 @@ routes.post(
 )
 
 routes.post('/auth', new AuthUserController().handle)
+
+routes.get('/me', isAuthenticated, new UserDetailsController().handle)
 
 routes.post(
   '/product',
