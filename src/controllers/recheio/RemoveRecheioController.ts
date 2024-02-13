@@ -4,10 +4,10 @@ import { RemoveRecheioService } from '../../services/recheio/RemoveCategoryServi
 
 export class RemoveRecheioController {
   async handle(req: RequestWithUser, res: Response) {
-    const { id } = req.body
+    const { name } = req.query as { name: string }
     const removeRecheioService = new RemoveRecheioService()
 
-    const recheio = await removeRecheioService.execute(id)
+    const recheio = await removeRecheioService.execute(name)
 
     return res.json(recheio)
   }
