@@ -6,6 +6,9 @@ export interface AddressProps {
   bairro: string
   ponto_de_referencia: string
   cidade: string
+  frete_moto: number
+  frete_carro: number
+  address_complete: string
 }
 
 export class CreateAddressService {
@@ -23,6 +26,7 @@ export class CreateAddressService {
         bairro,
         ponto_de_referencia,
         cidade,
+        address_complete: `${rua} - ${numero}, ${bairro}, ${ponto_de_referencia}, ${cidade}`,
       },
     })
     return address
