@@ -4,7 +4,7 @@ import { RemoveProductService } from '../../services/product/RemoveProductServic
 
 export class RemoveProductController {
   async handle(req: RequestWithUser, res: Response) {
-    const { id } = req.body
+    const { id } = req.query as { id: string }
 
     const removeProductService = new RemoveProductService()
 
