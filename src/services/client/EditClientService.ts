@@ -4,7 +4,7 @@ import { ClientProps } from './CreateClientService'
 export class EditClientService {
   async execute({ id, name, tel, address_id }: ClientProps & { id: string }) {
     const clientAlreadyExists = await prismaClient.client.findFirst({
-      where: { tel },
+      where: { id },
     })
 
     if (!clientAlreadyExists) {
