@@ -47,6 +47,9 @@ model Address {
   bairro              String
   ponto_de_referencia String
   cidade              String
+  frete_moto          Float?   @default(5)
+  frete_carro         Float?   @default(10)
+  address_complete    String?
   created_at          DateTime @default(now())
   updated_at          DateTime @default(now())
   client              Client[]
