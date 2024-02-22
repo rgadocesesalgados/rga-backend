@@ -10,11 +10,6 @@ export class ListProductService {
         min_quantity: true,
         banner: true,
         category_name: true,
-        stock: {
-          select: {
-            quantity: true,
-          },
-        },
       },
     })
     return products
