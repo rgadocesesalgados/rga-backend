@@ -34,6 +34,7 @@ import { CreateAddressController } from './controllers/address/CreateAddressCont
 import { ListAddressController } from './controllers/address/ListAddressController'
 import { EditAddressController } from './controllers/address/EditAddressController'
 import { UserDetailsController } from './controllers/user/UserDetailsController'
+import { DeleteClientController } from './controllers/client/DeleteClientController'
 
 const routes = Router()
 
@@ -141,6 +142,13 @@ routes.patch(
   isAuthenticated,
   isAdmin,
   new EditClientController().handle
+)
+
+routes.delete(
+  '/client',
+  isAuthenticated,
+  isAdmin,
+  new DeleteClientController().handle
 )
 
 routes.post('/order', isAuthenticated, new CreateOrderController().handle)

@@ -9,6 +9,7 @@ export interface ClientProps {
 
 export class CreateClientService {
   async execute({ name, tel, address_id }: ClientProps) {
+    
     const clientAlreadyExists = await prismaClient.client.findFirst({
       where: { tel },
     })
