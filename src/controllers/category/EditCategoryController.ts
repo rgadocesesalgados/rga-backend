@@ -4,12 +4,12 @@ import { EditCategoryService } from '../../services/category/EditCategoryService
 
 export class EditCategoryController {
   async handle(req: RequestWithUser, res: Response) {
-    const { new_name } = req.body
-    const { name } = req.query as { name: string }
+    const { name } = req.body
+    const { id } = req.query as { id: string }
 
     const editCategoryService = new EditCategoryService()
 
-    const category = await editCategoryService.execute(name, new_name)
+    const category = await editCategoryService.execute(id, name)
 
     return res.json(category)
   }
