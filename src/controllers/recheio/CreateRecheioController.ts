@@ -9,6 +9,13 @@ export class CreateRecheioController {
   async handle(req: RequestWithUser, res: Response) {
     const { name, banner, price, is_pesado, to_bento_cake } =
       req.body as RecheioProps
+
+    if (!name) throw new Error('Nome e obrigatório')
+
+    if (!price) throw new Error('Preço e obrigatório')
+
+    if (typeof price !== 'number') throw new Error('Preço deve ser um numero')
+
     const createRecheioService = new CreateRecheioService()
 
     const recheio = await createRecheioService.execute({
