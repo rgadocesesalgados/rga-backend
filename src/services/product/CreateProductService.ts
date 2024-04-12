@@ -5,7 +5,7 @@ export interface ProductProps {
   price: number
   min_quantity: number
   banner?: string
-  category?: string
+  category_id?: string
   stock?: number
 }
 export class CreateProductService {
@@ -14,11 +14,15 @@ export class CreateProductService {
     price,
     min_quantity,
     banner,
-    category,
+    category_id,
     stock = 0,
   }: ProductProps) {
     if (!name || !price || !min_quantity) {
       throw new Error('Name, price and min_quantity are required')
+    }
+
+    if (!category_id) {
+      throw new Error('Categoria não encontrada')
     }
 
     const product = await prismaClient.product.create({
@@ -28,13 +32,8 @@ export class CreateProductService {
         min_quantity,
         banner,
         category: {
-          connectOrCreate: {
-            where: {
-              name: category,
-            },
-            create: {
-              name: category,
-            },
+          connect: {
+            id: category_id,
           },
         },
         stock: {
