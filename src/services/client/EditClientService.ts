@@ -7,6 +7,14 @@ export class EditClientService {
       where: { id },
     })
 
+    const clientAlreadyExistsByTel = await prismaClient.client.findFirst({
+      where: { tel },
+    })
+
+    if (clientAlreadyExistsByTel && clientAlreadyExistsByTel.id !== id) {
+      throw new Error('Esse telefone já está cadastrado no sistema.')
+    }
+
     if (!clientAlreadyExists) {
       throw new Error('Client not found')
     }

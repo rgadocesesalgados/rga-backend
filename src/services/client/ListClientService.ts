@@ -2,7 +2,7 @@ import { prismaClient } from '../../prisma'
 
 export class ListClientService {
   async execute() {
-    return await prismaClient.client.findMany({
+    const clients = await prismaClient.client.findMany({
       select: {
         id: true,
         name: true,
@@ -10,14 +10,21 @@ export class ListClientService {
         address_id: true,
         address: {
           select: {
-            rua: true,
-            numero: true,
-            bairro: true,
-            ponto_de_referencia: true,
-            cidade: true,
+            address_complete: true,
           },
         },
       },
     })
+
+    const clientsWithAddress = clients.map((client) => {
+      return {
+        id: client.id,
+        name: client.name,
+        tel: client.tel,
+        address: client.address.address_complete,
+        address_id: client.address_id,
+      }
+    })
+    return clientsWithAddress
   }
 }
