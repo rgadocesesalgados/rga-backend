@@ -75,6 +75,7 @@ model Product {
 }
 
 model Category {
+  id         String    @id @default(uuid())
   name       String    @unique
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
@@ -135,33 +136,56 @@ model Order {
   id            String         @id @default(uuid())
   client        Client         @relation(fields: [client_id], references: [id])
   client_id     String
-  data          DateTime?
+  date          DateTime
   bolo          Bolo[]
-  cor_forminhas String?
   orderProduct  OrderProduct[]
+  cor_forminhas String?
   observations  String?
   delivery      Boolean        @default(false)
-  address       Address?       @relation(fields: [address_id], references: [id])
+  type_frete    TypeFrete?     @default(FRETE_MOTO)
+  value_frete   Float?
   address_id    String?
-  payment       Payment        @default(MONEY)
-  total         Float          @default(0)
-  draft         Boolean        @default(true)
-  retired       Boolean        @default(false)
-  paid          Boolean        @default(false)
+  address       Address?       @relation(fields: [address_id], references: [id])
+  payment       Payment[]
+  total         Float
+  status        Status         @default(RASCUNHO)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now())
 
   @@map("orders")
 }
 
-enum Payment {
-  CREDIT
-  DEBIT
-  MONEY
-  PIX
-  DUPLICATE
+enum TypeFrete {
+  FRETE_MOTO
+  FRETE_CARRO
+}
 
-  @@map("payment")
+enum Status {
+  RASCUNHO
+  ANOTADO
+  EM_PRODUCAO
+  ENTREGUE
+  CANCELADO
+}
+
+model Payment {
+  id         String      @id @default(uuid())
+  order_id   String
+  order      Order       @relation(fields: [order_id], references: [id])
+  type       PaymentType @default(DINHEIRO)
+  value      Float
+  created_at DateTime    @default(now())
+  updated_at DateTime    @default(now())
+
+  @@map("payments")
+}
+
+enum PaymentType {
+  DINHEIRO
+  PIX
+  CARTAO_DE_CREDITO
+  CARTAO_DE_DEBITO
+  DUPLICATA
 }
 
 model OrderProduct {
