@@ -10,9 +10,9 @@ export class ListAddressService {
         bairro: true,
         ponto_de_referencia: true,
         cidade: true,
-        address_complete: true,
         frete_moto: true,
         frete_carro: true,
+        address_complete: true,
       },
     })
   }

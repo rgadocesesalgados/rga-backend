@@ -4,10 +4,34 @@ import { CreateAddressService } from '../../services/address/CreateAddressServic
 
 export class CreateAddressController {
   async handle(req: RequestWithUser, res: Response) {
-    const { rua, numero, bairro, ponto_de_referencia, cidade } = req.body
+    const {
+      rua,
+      numero,
+      bairro,
+      ponto_de_referencia,
+      cidade,
+      frete_moto,
+      frete_carro,
+    } = req.body
 
-    if (!rua || !numero || !bairro || !ponto_de_referencia || !cidade) {
-      throw new Error('Preencha todos os dados.')
+    if (!rua) {
+      throw new Error('Rua é obrigatória.')
+    }
+
+    if (typeof numero !== 'number' || numero < 0) {
+      throw new Error('Numero é obrigatório.')
+    }
+
+    if (!bairro) {
+      throw new Error('Bairro é obrigatório.')
+    }
+
+    if (!ponto_de_referencia) {
+      throw new Error('Ponto de Referência é obrigatório.')
+    }
+
+    if (!cidade) {
+      throw new Error('Cidade é obrigatório.')
     }
 
     const createAddressService = new CreateAddressService()
@@ -18,6 +42,8 @@ export class CreateAddressController {
       bairro,
       ponto_de_referencia,
       cidade,
+      frete_moto,
+      frete_carro,
     })
     return res.json(address)
   }

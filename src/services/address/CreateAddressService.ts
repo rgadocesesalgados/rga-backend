@@ -8,7 +8,6 @@ export interface AddressProps {
   cidade: string
   frete_moto: number
   frete_carro: number
-  address_complete: string
 }
 
 export class CreateAddressService {
@@ -18,6 +17,8 @@ export class CreateAddressService {
     bairro,
     ponto_de_referencia,
     cidade,
+    frete_carro,
+    frete_moto,
   }: AddressProps) {
     const address = await prismaClient.address.create({
       data: {
@@ -26,6 +27,8 @@ export class CreateAddressService {
         bairro,
         ponto_de_referencia,
         cidade,
+        frete_moto,
+        frete_carro,
         address_complete: `${rua} - ${numero}, ${bairro}, ${ponto_de_referencia}, ${cidade}`,
       },
     })

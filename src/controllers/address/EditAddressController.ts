@@ -6,7 +6,15 @@ export class EditAddressController {
   async handle(req: RequestWithUser, res: Response) {
     const addressId = req.query.id as string
 
-    const { rua, numero, bairro, ponto_de_referencia, cidade } = req.body
+    const {
+      rua,
+      numero,
+      bairro,
+      ponto_de_referencia,
+      cidade,
+      frete_carro,
+      frete_moto,
+    } = req.body
 
     const editAddressService = new EditAddressService()
 
@@ -17,6 +25,8 @@ export class EditAddressController {
       bairro,
       ponto_de_referencia,
       cidade,
+      frete_carro,
+      frete_moto,
     })
     return res.json(address)
   }

@@ -13,7 +13,6 @@ export class EditAddressService {
     bairro,
     ponto_de_referencia,
     cidade,
-    address_complete,
     frete_moto,
     frete_carro,
   }: AddressPropsWithId) {
