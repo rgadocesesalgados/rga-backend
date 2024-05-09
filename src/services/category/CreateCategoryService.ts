@@ -1,7 +1,7 @@
 import { prismaClient } from '../../prisma'
 
 export class CreateCategoryService {
-  async execute(name: string) {
+  async execute(name: string, priority: number) {
     const existCategory = await prismaClient.category.findFirst({
       where: {
         name,
@@ -14,6 +14,7 @@ export class CreateCategoryService {
     const categorys = await prismaClient.category.create({
       data: {
         name,
+        priority,
       },
     })
 

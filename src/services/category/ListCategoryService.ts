@@ -1,12 +1,15 @@
 import { prismaClient } from '../../prisma'
+import { sortByAscendingName } from '../../ultils/sortByAscendingName'
 
 export class ListCategoryService {
   async execute() {
-    return await prismaClient.category.findMany({
+    const categorys = await prismaClient.category.findMany({
       select: {
         id: true,
         name: true,
+        priority: true,
       },
     })
+    return categorys.sort((a, b) => a.priority - b.priority)
   }
 }

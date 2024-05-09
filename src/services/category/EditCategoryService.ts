@@ -1,14 +1,14 @@
 import { prismaClient } from '../../prisma'
 
 export class EditCategoryService {
-  async execute(id: string, name: string) {
+  async execute(id: string, name: string, priority: number) {
     const existCategory = await prismaClient.category.findFirst({
       where: {
         name,
       },
     })
 
-    if (existCategory) {
+    if (existCategory && existCategory.id !== id) {
       throw new Error('Essa categoria já existe.')
     }
 
@@ -18,6 +18,7 @@ export class EditCategoryService {
       },
       data: {
         name,
+        priority,
       },
     })
 
