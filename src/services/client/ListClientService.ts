@@ -1,4 +1,5 @@
 import { prismaClient } from '../../prisma'
+import { sortByAscendingName } from '../../ultils/sortByAscendingName'
 
 export class ListClientService {
   async execute() {
@@ -25,6 +26,8 @@ export class ListClientService {
         address_id: client.address_id,
       }
     })
-    return clientsWithAddress
+    return clientsWithAddress.sort((a, b) =>
+      sortByAscendingName(a.name, b.name)
+    )
   }
 }

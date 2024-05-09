@@ -1,8 +1,9 @@
 import { prismaClient } from '../../prisma'
+import { sortByAscendingName } from '../../ultils/sortByAscendingName'
 
 export class ListAddressService {
   async execute() {
-    return await prismaClient.address.findMany({
+    const address = await prismaClient.address.findMany({
       select: {
         id: true,
         rua: true,
@@ -15,5 +16,8 @@ export class ListAddressService {
         address_complete: true,
       },
     })
+    return address.sort((a, b) =>
+      sortByAscendingName(a.address_complete, b.address_complete)
+    )
   }
 }
