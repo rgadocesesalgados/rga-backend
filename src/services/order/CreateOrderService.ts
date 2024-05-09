@@ -1,54 +1,102 @@
 import { prismaClient } from '../../prisma'
-import { CreateOrderProps } from './types'
+import { CakeCreate } from '../../types/cake'
+import { OrderCreate } from '../../types/order/create'
+import { TopperCreate } from '../../types/topper'
 
 export class CreateOrderService {
   async execute({
     client_id,
-    data: date,
-    delivery,
-    status,
-    total,
-    address_id,
-    frete,
-    cor_da_forminha,
-    observations,
-    products,
-  }: CreateOrderProps) {
-    if (!client_id) throw new Error('Cliente é obrigatório.')
-    if (!date) throw new Error('Data é obrigatório.')
-    if (!status) throw new Error('Status é obrigatório.')
-    if (typeof total !== 'number' || total < 0)
-      throw new Error('Total é obrigatório.')
+    date,
+    hour,
+    cakes = [],
+    products = [],
+    cor_forminhas = '',
+    observations = '',
+    delivery = false,
+    address_id = null,
+    type_frete = 'FRETE_MOTO',
+    value_frete = 0,
+    total = 0,
+    status = 'RASCUNHO',
+    payments = [],
+  }: OrderCreate) {
+    const [hours, minutes] = hour.split(':')
 
-    const isDelivery = () => {
-      if (delivery) {
-        return { address: { connect: { id: address_id } }, type_frete: frete }
-      }
-      return { type_frete: null }
-    }
+    const dateAndHour = new Date(date).setHours(Number(hours), Number(minutes))
 
     const order = await prismaClient.order.create({
       data: {
         client: { connect: { id: client_id } },
-        data: new Date(date),
-        status,
-        total,
-        delivery: delivery,
-        ...isDelivery(),
-        cor_forminhas: cor_da_forminha,
+        date: new Date(dateAndHour),
+        hour,
+        cor_forminhas,
         observations,
+        ...this.#isDelivey(delivery, address_id, type_frete, value_frete),
+        total,
+        status,
+        orderProduct: {
+          createMany: { data: products.length > 0 ? products : [] },
+        },
+        bolo: {
+          create: this.#haveCake(cakes),
+        },
       },
     })
-    if (products.length > 0) {
-      const orderProducts = await prismaClient.orderProduct.createMany({
-        data: products.map((product) => ({
-          order_id: order.id,
-          product_id: product.product_id,
-          quantity: product.quantity,
-          price: product.price,
-        })),
-      })
-    }
+
     return order
+  }
+
+  #isDelivey(
+    delivery = false,
+    address_id: string,
+    type_frete: 'FRETE_MOTO' | 'FRETE_CARRO',
+    value_frete = 0
+  ) {
+    if (delivery) {
+      return {
+        delivery,
+        address: { connect: { id: address_id } },
+        type_frete,
+        value_frete: value_frete,
+      }
+    } else {
+      return {
+        delivery,
+        value_frete: 0,
+      }
+    }
+  }
+
+  #haveCake(cakes: CakeCreate[]) {
+    return cakes.map((cake) => {
+      return {
+        recheio: { connect: cake.recheio },
+        peso: cake.peso,
+        formato: cake.formato,
+        massa: cake.massa,
+        price: cake.price,
+        cobertura: cake.cobertura,
+        description: cake.description,
+        banner: cake.banner,
+        ...this.#haveTopper(cake.topper),
+      }
+    })
+  }
+
+  #haveTopper(topper: TopperCreate | null) {
+    if (topper?.tema) {
+      return {
+        topper: {
+          create: {
+            tema: topper.tema,
+            name: topper.name,
+            idade: topper.idade,
+            price: topper.price,
+            description: topper.description,
+            banner: topper.banner,
+          },
+        },
+      }
+    }
   }
 }
