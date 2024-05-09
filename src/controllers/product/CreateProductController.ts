@@ -4,8 +4,7 @@ import { CreateProductService } from '../../services/product/CreateProductServic
 
 export class CreateProductController {
   async handle(req: RequestWithUser, res: Response) {
-    const { name, price, min_quantity, banner, stock } = req.body
-    const { category_id } = req.query as { category_id: string }
+    const { name, price, min_quantity, category_id, banner } = req.body
 
     const createProductService = new CreateProductService()
 
@@ -13,7 +12,6 @@ export class CreateProductController {
       name,
       price,
       min_quantity,
-      stock,
       banner,
       category_id,
     })

@@ -5,10 +5,12 @@ import { EditeProductService } from '../../services/product/EditeProductService'
 
 export class EditeProductController {
   async handle(req: RequestWithUser, res: Response) {
-    const { id, name, price, min_quantity, banner, category, stock } =
+    const { id, name, price, min_quantity, banner } =
       req.body as ProductProps & { id: string }
 
-    if (!id) throw new Error('Id is required')
+    const { category_id } = req.query as { category_id: string }
+
+    if (!id) throw new Error('Id é obrigatório')
 
     const editeProductService = new EditeProductService()
 
@@ -18,8 +20,7 @@ export class EditeProductController {
       price,
       min_quantity,
       banner,
-      category,
-      stock,
+      category_id,
     })
 
     return res.json(product)

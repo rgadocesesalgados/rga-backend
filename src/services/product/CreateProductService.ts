@@ -6,7 +6,6 @@ export interface ProductProps {
   min_quantity: number
   banner?: string
   category_id?: string
-  stock?: number
 }
 export class CreateProductService {
   async execute({
@@ -15,7 +14,6 @@ export class CreateProductService {
     min_quantity,
     banner,
     category_id,
-    stock = 0,
   }: ProductProps) {
     if (!name || !price || !min_quantity) {
       throw new Error('Name, price and min_quantity are required')
@@ -34,11 +32,6 @@ export class CreateProductService {
         category: {
           connect: {
             id: category_id,
-          },
-        },
-        stock: {
-          create: {
-            quantity: stock,
           },
         },
       },

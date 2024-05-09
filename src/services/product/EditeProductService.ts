@@ -8,16 +8,17 @@ export class EditeProductService {
     price,
     min_quantity,
     banner,
-    category,
-    stock,
+    category_id,
   }: ProductProps & { id: string }) {
     const categoryAlreadyExists = await prismaClient.category.findFirst({
       where: {
-        name: category,
+        id: category_id,
       },
     })
 
-    if (!categoryAlreadyExists) throw new Error('Category not found')
+    if (!categoryAlreadyExists) throw new Error('Categoria não encontrada')
+
+    console.log({ id, name, price, min_quantity, banner, category_id })
 
     const product = await prismaClient.product.update({
       where: {
@@ -28,12 +29,7 @@ export class EditeProductService {
         price,
         min_quantity,
         banner,
-        category_name: category,
-        stock: {
-          update: {
-            quantity: stock,
-          },
-        },
+        category: { connect: { id: category_id } },
       },
     })
 
