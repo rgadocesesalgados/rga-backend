@@ -10,6 +10,8 @@ interface UserProps {
 
 export class CreateUserService {
   async execute({ name, tel, password, role = 'USER' }: UserProps) {
+    if (!tel) throw new Error('Telefone é obrigatório')
+
     const userAlreadyExists = await prismaClient.user.findFirst({
       where: { tel },
     })
