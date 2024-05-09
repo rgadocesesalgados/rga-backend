@@ -24,7 +24,9 @@ export class ListOrderService {
         orderProduct: {
           include: {
             product: {
-              include: { category: true },
+              include: {
+                category: { select: { id: true, name: true, priority: true } },
+              },
             },
           },
         },
@@ -53,12 +55,14 @@ export class ListOrderService {
           return order.orderProduct.map((orderProduct) => {
             return {
               id: orderProduct.id,
+              product_id: orderProduct.product_id,
               name: orderProduct.product.name,
               price: orderProduct.price,
               quantity: orderProduct.quantity,
               category: {
                 id: orderProduct.product.category.id,
                 name: orderProduct.product.category.name,
+                priority: orderProduct.product.category.priority,
               },
               min_quantity: orderProduct.product.min_quantity,
               total: orderProduct.total,

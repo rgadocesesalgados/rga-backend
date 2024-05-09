@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { RequestWithUser } from '../../middlewares/isAuthenticated'
-import { RemoveRecheioService } from '../../services/recheio/RemoveCategoryService'
+import { RemoveRecheioService } from '../../services/recheio/RemoveRecheioService'
 
 export class RemoveRecheioController {
   async handle(req: RequestWithUser, res: Response) {
