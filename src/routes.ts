@@ -1,4 +1,5 @@
 import { Router } from 'express'
+
 import { CreateUserController } from './controllers/user/CreateUserController'
 import { AuthUserController } from './controllers/user/AuthUserController'
 import { isAuthenticated } from './middlewares/isAuthenticated'
@@ -33,11 +34,12 @@ import { EditAddressController } from './controllers/address/EditAddressControll
 import { UserDetailsController } from './controllers/user/UserDetailsController'
 import { DeleteClientController } from './controllers/client/DeleteClientController'
 import { RemoveAddressController } from './controllers/address/RemoveAddressController'
+import multer from 'multer'
 
 const routes = Router()
 
 routes.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.json({ status: 'ok' })
 })
 
 routes.post(
@@ -161,7 +163,12 @@ routes.delete(
   new DeleteClientController().handle
 )
 
-routes.post('/order', isAuthenticated, new CreateOrderController().handle)
+routes.post(
+  '/order',
+  isAuthenticated,
+
+  new CreateOrderController().handle
+)
 
 routes.get('/order', isAuthenticated, new ListOrderController().handle)
 
