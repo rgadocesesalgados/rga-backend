@@ -66,7 +66,6 @@ model Product {
   banner        String         @default("")
   category_name String
   category      Category       @relation(fields: [category_name], references: [name])
-  stock         Stock?
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now())
   order_product OrderProduct[]
@@ -77,6 +76,7 @@ model Product {
 model Category {
   id         String    @id @default(uuid())
   name       String    @unique
+  priority   Int       @default(0)
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
   product    Product[]
@@ -85,22 +85,41 @@ model Category {
 }
 
 model Bolo {
-  id         String    @id @default(uuid())
-  order      Order     @relation(fields: [order_id], references: [id])
-  order_id   String
-  peso       Float?
-  recheio    Recheio[]
-  massa      String?
-  cobertura  String?
-  decoracao  String?
-  banner     String    @default("")
-  topper     Topper?   @relation(fields: [topper_id], references: [id])
-  topper_id  String?   @unique
-  price      Float?
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now())
+  id          String    @id @default(uuid())
+  order       Order?    @relation(fields: [order_id], references: [id])
+  order_id    String?
+  peso        Float?
+  formato     Formato   @default(REDONDO)
+  massa       Massa     @default(BRANCA)
+  recheio     Recheio[]
+  cobertura   Cobertura @default(CHANTILLLY)
+  price       Float?
+  description String?
+  banner      String    @default("")
+  topper      Topper?   @relation(fields: [topper_id], references: [id])
+  topper_id   String?   @unique
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
 
   @@map("bolos")
+}
+
+enum Formato {
+  REDONDO
+  QUADRADO
+}
+
+enum Cobertura {
+  CHANTILLLY
+  NATA
+  CLARA_QUEIMADA
+  AVELA_BATIDO
+}
+
+enum Massa {
+  BRANCA
+  CHOCOLATE
+  MASSA_MESCLADA
 }
 
 model Topper {
@@ -135,19 +154,20 @@ model Recheio {
 model Order {
   id            String         @id @default(uuid())
   client        Client         @relation(fields: [client_id], references: [id])
-  client_id     String
-  date          DateTime
+  address       Address?       @relation(fields: [address_id], references: [id])
   bolo          Bolo[]
   orderProduct  OrderProduct[]
+  payment       Payment[]
+  client_id     String
+  date          DateTime
+  hour          String
   cor_forminhas String?
   observations  String?
+  address_id    String?
+  value_frete   Float?
+  total         Float
   delivery      Boolean        @default(false)
   type_frete    TypeFrete?     @default(FRETE_MOTO)
-  value_frete   Float?
-  address_id    String?
-  address       Address?       @relation(fields: [address_id], references: [id])
-  payment       Payment[]
-  total         Float
   status        Status         @default(RASCUNHO)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now())
@@ -174,6 +194,8 @@ model Payment {
   order      Order       @relation(fields: [order_id], references: [id])
   type       PaymentType @default(DINHEIRO)
   value      Float
+  paid       Boolean     @default(false)
+  date       DateTime?
   created_at DateTime    @default(now())
   updated_at DateTime    @default(now())
 
@@ -196,19 +218,9 @@ model OrderProduct {
   product    Product  @relation(fields: [product_id], references: [id])
   quantity   Int
   price      Float
+  total      Float
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
   @@map("order_products")
-}
-
-model Stock {
-  id         String   @id @default(uuid())
-  quantity   Int
-  product_id String   @unique
-  product    Product  @relation(fields: [product_id], references: [id])
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-
-  @@map("stocks")
 }
