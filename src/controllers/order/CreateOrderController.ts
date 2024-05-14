@@ -47,6 +47,7 @@ export class CreateOrderController {
         }
       }
     }
+    console.log(payments)
 
     const order: OrderCreate = {
       client_id,
