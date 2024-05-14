@@ -1,6 +1,7 @@
 import { prismaClient } from '../../prisma'
 import { CakeCreate } from '../../types/cake'
 import { OrderCreate } from '../../types/order/create'
+import { PaymentCreate } from '../../types/payment'
 import { TopperCreate } from '../../types/topper'
 
 export class CreateOrderService {
@@ -39,6 +40,11 @@ export class CreateOrderService {
         },
         bolo: {
           create: this.#haveCake(cakes),
+        },
+        payment: {
+          createMany: {
+            data: this.#havePayment(payments),
+          },
         },
       },
     })
@@ -96,6 +102,25 @@ export class CreateOrderService {
             banner: topper.banner,
           },
         },
+      }
+    }
+  }
+
+  #havePayment(payments: PaymentCreate[]) {
+    return payments.map((payment) => {
+      return {
+        value: payment.value,
+        type: payment.type,
+        ...this.#isPaid(payment),
+      }
+    })
+  }
+
+  #isPaid(payment: PaymentCreate) {
+    if (payment.paid) {
+      return {
+        paid: payment.paid,
+        date: payment.date,
       }
     }
   }
