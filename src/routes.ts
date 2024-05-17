@@ -35,6 +35,7 @@ import { UserDetailsController } from './controllers/user/UserDetailsController'
 import { DeleteClientController } from './controllers/client/DeleteClientController'
 import { RemoveAddressController } from './controllers/address/RemoveAddressController'
 import multer from 'multer'
+import { RelatoriosController } from './controllers/relatorios/RelatoriosController'
 
 const routes = Router()
 
@@ -202,4 +203,7 @@ routes.delete(
 
   new DeleteTopperController().handle
 )
+
+routes.get('/relatorios', new RelatoriosController().handle)
+
 export { routes }
