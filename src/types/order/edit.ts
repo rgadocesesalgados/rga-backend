@@ -10,7 +10,6 @@ export interface EditOrder {
   date: Date
   hour: string
   bolo: CakeCreate[]
-  boloDelete: { id: string }[]
   address: EditAddressOrder
   orderProduct: ProductCreate[]
   payment: EditPayment[]

@@ -5,15 +5,7 @@ import { PaymentCreate } from '../../types/payment'
 import { TopperCreate } from '../../types/topper'
 
 export class EditOrderService {
-  async execute({
-    bolo,
-    orderProduct,
-    address,
-    payment,
-    boloDelete,
-
-    ...data
-  }: EditOrder) {
+  async execute({ bolo, orderProduct, address, payment, ...data }: EditOrder) {
     await prismaClient.topper.deleteMany({
       where: { bolo: { order_id: data.id } },
     })
