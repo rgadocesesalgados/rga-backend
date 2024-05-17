@@ -21,6 +21,7 @@ export class CreateOrderService {
     status = 'RASCUNHO',
     payments = [],
   }: OrderCreate) {
+    if (!client_id) throw new Error('Cliente é obrigatório')
     const [hours, minutes] = hour.split(':')
 
     const dateAndHour = new Date(date).setHours(Number(hours), Number(minutes))

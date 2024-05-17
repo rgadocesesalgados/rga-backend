@@ -172,7 +172,7 @@ routes.post(
 
 routes.get('/order', isAuthenticated, new ListOrderController().handle)
 
-// routes.patch('/order', isAuthenticated, new EditOrderController().handle)
+routes.patch('/order', isAuthenticated, new EditOrderController().handle)
 
 routes.delete('/order', isAuthenticated, new RemoveOrderController().handle)
 

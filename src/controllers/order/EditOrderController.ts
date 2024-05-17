@@ -1,45 +1,43 @@
 import { Response } from 'express'
 import { RequestWithUser } from '../../middlewares/isAuthenticated'
-import {
-  EditeOrderService,
-  OrderProps,
-} from '../../services/order/EditeOrderService'
+import { EditOrderService } from '../../services/order/EditOrderService'
 
 export class EditOrderController {
   async handle(req: RequestWithUser, res: Response) {
-    const order_id = req.query.order_id as string
-
-    if (!order_id) throw new Error('Order id is required')
-
     const {
+      id,
       client_id,
-      data,
+      date,
+      hour,
+      bolo,
+      boloDelete,
+      orderProduct,
       cor_forminhas,
       observations,
       delivery,
-      payment,
+      address,
       total,
-      draft,
-      retired,
-      paid,
-      address_id,
-    } = req.body as OrderProps
+      payment,
+      status,
+    } = req.body
 
-    const editOrderService = new EditeOrderService()
+    const editOrderService = new EditOrderService()
 
     const order = await editOrderService.execute({
-      id: order_id,
+      id,
       client_id,
-      data,
+      date,
+      hour,
+      bolo,
+      boloDelete,
+      orderProduct,
       cor_forminhas,
       observations,
       delivery,
-      payment,
+      address,
       total,
-      draft,
-      retired,
-      paid,
-      address_id,
+      payment,
+      status,
     })
 
     return res.json(order)

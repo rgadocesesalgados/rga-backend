@@ -182,7 +182,6 @@ export class ListOrderService {
         const date = new Date(order.date).getTime()
 
         const timeLeft = date - toDay
-        console.log({ timeLeft, date: order.date.toLocaleString() })
 
         const priority = {
           ...order,
