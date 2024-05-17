@@ -92,7 +92,7 @@ model Bolo {
   formato     Formato   @default(REDONDO)
   massa       Massa     @default(BRANCA)
   recheio     Recheio[]
-  cobertura   Cobertura @default(CHANTILLLY)
+  cobertura   Cobertura @default(CHANTILLY)
   price       Float?
   description String?
   banner      String    @default("")
@@ -110,7 +110,7 @@ enum Formato {
 }
 
 enum Cobertura {
-  CHANTILLLY
+  CHANTILLY
   NATA
   CLARA_QUEIMADA
   AVELA_BATIDO
