@@ -26,7 +26,6 @@ export class CreateOrderController {
 
     const isDelivery = () => {
       if (delivery) {
-        console.log({ address, address_id })
         if (!address_id) throw new Error('Endereço de entrega é obrigatório')
         if (!address.type_frete) throw new Error('Tipo de Frete é obrigatório')
         if (!address.value_frete)
@@ -47,7 +46,6 @@ export class CreateOrderController {
         }
       }
     }
-    console.log(payments)
 
     const order: OrderCreate = {
       client_id,

@@ -34,9 +34,7 @@ export class EditOrderService {
       },
     })
 
-    console.log({ ok: true })
-
-    return { ok: true }
+    return order
   }
 
   #haveCake(cakes: CakeCreate[]) {
