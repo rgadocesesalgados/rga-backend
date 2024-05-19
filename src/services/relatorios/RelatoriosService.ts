@@ -28,6 +28,7 @@ export class RelatoriosService {
             formato: true,
             massa: true,
             recheio: { select: { name: true } },
+            cobertura: true,
             description: true,
             banner: true,
             topper: {
@@ -35,6 +36,7 @@ export class RelatoriosService {
                 tema: true,
                 name: true,
                 idade: true,
+                price: true,
                 description: true,
                 banner: true,
               },
@@ -60,15 +62,49 @@ export class RelatoriosService {
     const bolos = orders.reduce((acc, order) => {
       const bolos = order.bolo.map((bolo) => ({
         client: order.client.name,
+        status_order: order.status,
         date: order.date,
         hour: order.hour,
         peso: bolo.peso,
         formato: bolo.formato,
         massa: bolo.massa,
         recheio: bolo.recheio,
+        cobertura: bolo.cobertura,
         description: bolo.description,
+        banner: bolo.banner,
+        topper: bolo.topper,
       }))
       return acc.concat(bolos)
+    }, [])
+
+    bolos.sort((a, b) => {
+      if (a.status_order !== 'EM_PRODUCAO') {
+        return -1
+      }
+      if (a.date < b.date) {
+        return -1
+      }
+      if (a.date > b.date) {
+        return 1
+      }
+      return 0
+    })
+
+    const toppers = bolos.reduce((acc, bolo) => {
+      if (bolo.topper) {
+        return acc.concat({
+          client: bolo.client,
+          date: bolo.date,
+          hour: bolo.hour,
+          tema: bolo.topper.tema,
+          name: bolo.topper.name,
+          idade: bolo.topper.idade,
+          price: bolo.topper.price,
+          description: bolo.topper.description,
+          banner: bolo.topper.banner,
+        })
+      }
+      return acc
     }, [])
 
     const products = orders.reduce((acc, order) => {
@@ -84,6 +120,7 @@ export class RelatoriosService {
     return {
       bolos,
       products,
+      toppers,
     }
 
     return orders.map((order) => ({
