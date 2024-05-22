@@ -5,7 +5,11 @@ import { routes } from './routes'
 
 const app = express()
 
-app.use(cors({ origin: [process.env.URL_CORS] }))
+app.use(
+  cors({
+    origin: 'https://rga-delta.vercel.app',
+  })
+)
 
 app.use(express.json())
 
