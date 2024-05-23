@@ -1,6 +1,15 @@
 import { prismaClient } from '../../prisma'
 const inicio = new Date(new Date().setHours(0, 0, 0, 0))
 const fim = new Date(new Date().setHours(23, 59, 59, 59))
+
+interface OrdersPrisma {
+  orderProduct?: OrderProductPrisma[]
+}
+
+interface OrderProductPrisma {
+  product: { name: string; category_name: string }
+  quantity: string
+}
 export class RelatoriosService {
   async execute(
     dateInicial: Date = new Date(inicio),
@@ -107,54 +116,39 @@ export class RelatoriosService {
       return acc
     }, [])
 
-    const products = orders.reduce((acc, order) => {
-      const products = order.orderProduct.map((product) => ({
-        name: product.product.name,
-        quantity: product.quantity,
-        category_name: product.product.category_name,
+    const orderProducts = orders.reduce((acc, order) => {
+      const orderProducts = order.orderProduct.map((orderProduct) => ({
+        name: orderProduct.product.name,
+        category_name: orderProduct.product.category_name,
+        quantity: orderProduct.quantity,
       }))
+      return acc.concat(orderProducts)
+    }, [])
 
-      return acc.concat(products)
+    const products = orderProducts.reduce((acc, orderProduct) => {
+      const productIndex = acc.findIndex(
+        (product) => product.name === orderProduct.name
+      )
+
+      if (productIndex === -1) {
+        acc.push({
+          name: orderProduct.name,
+          category_name: orderProduct.category_name,
+          quantity: orderProduct.quantity,
+        })
+
+        return acc
+      }
+
+      acc[productIndex].quantity += orderProduct.quantity
+
+      return acc
     }, [])
 
     return {
       bolos,
-      products,
+      produtos: products,
       toppers,
     }
-
-    return orders.map((order) => ({
-      client: order.client.name,
-      tel: order.client.tel,
-      date: order.date,
-      hour: order.hour,
-      delivery: order.delivery,
-      adress: order.delivery
-        ? {
-            address_complete: order.address?.address_complete,
-            type_frete: order.type_frete,
-            value_frete: order.value_frete,
-          }
-        : null,
-      bolo: order.bolo.map((bolo) => ({
-        client: order.client.name,
-        date: order.date,
-        hour: order.hour,
-        peso: bolo.peso,
-        formato: bolo.formato,
-        massa: bolo.massa,
-        recheio: bolo.recheio,
-        description: bolo.description,
-      })),
-      products: order.orderProduct.map((product) => ({
-        name: product.product.name,
-        quantity: product.quantity,
-      })),
-      cor_forminhas: order.cor_forminhas,
-      observations: order.observations,
-      total: order.total,
-      status: order.status,
-      payment: order.payment,
-    }))
   }
 }
