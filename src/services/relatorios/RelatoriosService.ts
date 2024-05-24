@@ -54,7 +54,13 @@ export class RelatoriosService {
         },
         orderProduct: {
           select: {
-            product: { select: { name: true, category_name: true } },
+            product: {
+              select: {
+                name: true,
+                category_name: true,
+                category: { select: { priority: true } },
+              },
+            },
             quantity: true,
           },
         },
@@ -121,6 +127,7 @@ export class RelatoriosService {
         name: orderProduct.product.name,
         category_name: orderProduct.product.category_name,
         quantity: orderProduct.quantity,
+        category_priority: orderProduct.product.category.priority,
       }))
       return acc.concat(orderProducts)
     }, [])
@@ -135,6 +142,7 @@ export class RelatoriosService {
           name: orderProduct.name,
           category_name: orderProduct.category_name,
           quantity: orderProduct.quantity,
+          category_priority: orderProduct.category_priority,
         })
 
         return acc
@@ -144,6 +152,8 @@ export class RelatoriosService {
 
       return acc
     }, [])
+
+    products.sort((a, b) => a.category_priority - b.category_priority)
 
     return {
       bolos,
