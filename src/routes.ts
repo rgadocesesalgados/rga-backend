@@ -204,6 +204,6 @@ routes.delete(
   new DeleteTopperController().handle
 )
 
-routes.get('/relatorios', new RelatoriosController().handle)
+routes.post('/relatorios', new RelatoriosController().handle)
 
 export { routes }

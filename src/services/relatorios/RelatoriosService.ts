@@ -11,10 +11,7 @@ interface OrderProductPrisma {
   quantity: string
 }
 export class RelatoriosService {
-  async execute(
-    dateInicial: Date = new Date(inicio),
-    dateFinal: Date = new Date(fim)
-  ) {
+  async execute(dateInicial: Date, dateFinal: Date) {
     const orders = await prismaClient.order.findMany({
       where: { date: { gte: dateInicial, lte: dateFinal } },
       select: {
