@@ -19,14 +19,15 @@ const hojeFinal = fecharDia(new Date())
 
 export class RelatoriosController {
   async handle(req: RequestWithUser, res: Response) {
-    const { dateInicial, dateFinal } = req.body
+    const { dateInicial, dateFinal, status } = req.body
 
     const relatoriosService = new RelatoriosService()
 
-    const relatorios = await relatoriosService.execute(
-      dateInicial ? iniciarDia(dateInicial) : hojeInicial,
-      dateFinal ? fecharDia(dateFinal) : hojeFinal
-    )
+    const relatorios = await relatoriosService.execute({
+      dateInicial: dateInicial ? iniciarDia(dateInicial) : hojeInicial,
+      dateFinal: dateFinal ? fecharDia(dateFinal) : hojeFinal,
+      status,
+    })
 
     return res.json(relatorios)
   }

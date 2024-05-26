@@ -1,19 +1,18 @@
 import { prismaClient } from '../../prisma'
-const inicio = new Date(new Date().setHours(0, 0, 0, 0))
-const fim = new Date(new Date().setHours(23, 59, 59, 59))
+import { GetOrder } from '../../types/order'
 
-interface OrdersPrisma {
-  orderProduct?: OrderProductPrisma[]
-}
-
-interface OrderProductPrisma {
-  product: { name: string; category_name: string }
-  quantity: string
+interface GetRelatoriosExecute {
+  dateInicial: Date
+  dateFinal: Date
+  status: GetOrder['status'][]
 }
 export class RelatoriosService {
-  async execute(dateInicial: Date, dateFinal: Date) {
+  async execute({ dateInicial, dateFinal, status }: GetRelatoriosExecute) {
     const orders = await prismaClient.order.findMany({
-      where: { date: { gte: dateInicial, lte: dateFinal } },
+      where: {
+        date: { gte: dateInicial, lte: dateFinal },
+        ...this.haveStatus(status),
+      },
       select: {
         date: true,
         hour: true,
@@ -114,6 +113,7 @@ export class RelatoriosService {
           price: bolo.topper.price,
           description: bolo.topper.description,
           banner: bolo.topper.banner,
+          peso: bolo.peso,
         })
       }
       return acc
@@ -156,6 +156,14 @@ export class RelatoriosService {
       bolos,
       produtos: products,
       toppers,
+    }
+  }
+
+  haveStatus(status: GetOrder['status'][]) {
+    if (status.length > 0) {
+      const OR = { OR: status.map((status) => ({ status })) }
+
+      return OR
     }
   }
 }
