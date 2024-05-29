@@ -36,6 +36,7 @@ import { DeleteClientController } from './controllers/client/DeleteClientControl
 import { RemoveAddressController } from './controllers/address/RemoveAddressController'
 import multer from 'multer'
 import { RelatoriosController } from './controllers/relatorios/RelatoriosController'
+import { ToggleStatusController } from './controllers/relatorios/ToggleStatusController'
 
 const routes = Router()
 
@@ -204,6 +205,12 @@ routes.delete(
   new DeleteTopperController().handle
 )
 
-routes.post('/relatorios', new RelatoriosController().handle)
+routes.post('/relatorios', isAuthenticated, new RelatoriosController().handle)
+
+routes.patch(
+  '/relatorios',
+  isAuthenticated,
+  new ToggleStatusController().handle
+)
 
 export { routes }

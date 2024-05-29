@@ -14,6 +14,7 @@ export class RelatoriosService {
         ...this.haveStatus(status),
       },
       select: {
+        id: true,
         date: true,
         hour: true,
         client: {
@@ -72,6 +73,7 @@ export class RelatoriosService {
 
     const bolos = orders.reduce((acc, order) => {
       const bolos = order.bolo.map((bolo) => ({
+        order_id: order.id,
         client: order.client.name,
         status_order: order.status,
         date: order.date,
@@ -151,6 +153,8 @@ export class RelatoriosService {
     }, [])
 
     products.sort((a, b) => a.category_priority - b.category_priority)
+
+    bolos.sort((a, b) => a.date - b.date)
 
     return {
       bolos,
