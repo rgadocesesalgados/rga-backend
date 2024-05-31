@@ -49,7 +49,7 @@ export class CreateOrderController {
 
     const order: OrderCreate = {
       client_id,
-      date: new Date(date),
+      date,
       hour,
       cakes: cakes ? cakes : [],
       products: products ? products : [],
