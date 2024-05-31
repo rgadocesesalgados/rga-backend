@@ -90,14 +90,6 @@ export class RelatoriosService {
       return acc.concat(bolos)
     }, [])
 
-    bolos.sort((a, b) => {
-      if (a.status_order !== 'EM_PRODUCAO') {
-        return -1
-      }
-
-      return 0
-    })
-
     const toppers = bolos.reduce((acc, bolo) => {
       if (bolo.topper) {
         return acc.concat({
@@ -152,7 +144,15 @@ export class RelatoriosService {
     bolos.sort((a, b) => a.date - b.date)
 
     return {
-      bolos,
+      bolos: bolos.reduce((acc, item) => {
+        if (item.status_order == 'EM_PRODUCAO') {
+          acc.unshift(item)
+          return acc
+        }
+
+        acc.push(item)
+        return acc
+      }, []),
       produtos: products,
       toppers,
     }
