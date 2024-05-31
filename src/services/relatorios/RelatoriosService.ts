@@ -94,12 +94,7 @@ export class RelatoriosService {
       if (a.status_order !== 'EM_PRODUCAO') {
         return -1
       }
-      if (a.date < b.date) {
-        return -1
-      }
-      if (a.date > b.date) {
-        return 1
-      }
+
       return 0
     })
 
