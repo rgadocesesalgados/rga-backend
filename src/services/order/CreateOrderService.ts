@@ -25,21 +25,10 @@ export class CreateOrderService {
 
     const [hours, minutes] = hour.split(':')
 
-    const dateAndHour = new Date(date).setHours(
-      Number(hours),
-      Number(minutes),
-      0,
-      0
-    )
-
-    const dateFormat = new Date(dateAndHour)
-
-    console.warn({ date, dateFormat })
-
     const order = await prismaClient.order.create({
       data: {
         client: { connect: { id: client_id } },
-        date: dateFormat,
+        date,
         hour,
         cor_forminhas,
         observations,
