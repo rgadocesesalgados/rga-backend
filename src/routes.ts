@@ -37,6 +37,7 @@ import { RemoveAddressController } from './controllers/address/RemoveAddressCont
 import multer from 'multer'
 import { RelatoriosController } from './controllers/relatorios/RelatoriosController'
 import { ToggleStatusController } from './controllers/relatorios/ToggleStatusController'
+import { ListDesliveryController } from './controllers/delivery/ListDesliveryController'
 
 const routes = Router()
 
@@ -212,5 +213,7 @@ routes.patch(
   isAuthenticated,
   new ToggleStatusController().handle
 )
+
+routes.get('/delivery', isAuthenticated, new ListDesliveryController().handle)
 
 export { routes }
