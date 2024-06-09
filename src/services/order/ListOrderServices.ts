@@ -169,32 +169,9 @@ export class ListOrderService {
       })
     }
 
-    const orderList = ordersGet().reduce((acc, order) => {
-      if (order.status === 'RASCUNHO') {
-        const priority = { ...order, priority: 0 }
+    const orderList = ordersGet()
 
-        acc.push(priority)
-
-        return acc
-      } else {
-        const toDay = new Date().setHours(0, 0, 0, 0)
-
-        const date = new Date(order.date).getTime()
-
-        const timeLeft = date - toDay
-
-        const priority = {
-          ...order,
-          priority: timeLeft < 0 ? 2 + -timeLeft : timeLeft,
-        }
-
-        acc.push(priority)
-
-        return acc
-      }
-    }, [])
-
-    orderList.sort((a, b) => a.priority - b.priority)
+    orderList.reverse()
 
     return orderList
   }
