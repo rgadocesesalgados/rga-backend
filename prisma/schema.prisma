@@ -64,6 +64,7 @@ model Product {
   price         Float
   min_quantity  Int
   banner        String         @default("")
+  size          Size           @default(UNIT)
   category_name String
   category      Category       @relation(fields: [category_name], references: [name])
   created_at    DateTime       @default(now())
@@ -71,6 +72,16 @@ model Product {
   order_product OrderProduct[]
 
   @@map("products")
+}
+
+enum Size {
+  PP
+  P
+  M
+  G
+  GG
+  UNIT
+  NOT
 }
 
 model Category {
