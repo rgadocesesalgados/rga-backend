@@ -9,6 +9,7 @@ export class EditeProductService {
     min_quantity,
     banner,
     category_id,
+    size,
   }: ProductProps & { id: string }) {
     const categoryAlreadyExists = await prismaClient.category.findFirst({
       where: {
@@ -30,6 +31,7 @@ export class EditeProductService {
         min_quantity,
         banner,
         category: { connect: { id: category_id } },
+        size,
       },
     })
 
