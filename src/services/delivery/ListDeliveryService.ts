@@ -21,6 +21,7 @@ export class ListDeliveryService {
         address: { select: { address_complete: true } },
         date: true,
         hour: true,
+        type_frete: true,
       },
     })
 
@@ -37,6 +38,7 @@ export class ListDeliveryService {
         client_name: order.client.name,
         address_complete: order.address.address_complete,
         priorityDate,
+        type_delivery: order.type_frete,
       }
     })
 
