@@ -33,7 +33,8 @@ export class EditCategoryService {
 
     if (
       categorySelect?.priority >= 0 &&
-      categorySelect?.priority !== categorys[categorys.length - 1].priority
+      categorySelect?.priority !== categorys[categorys.length - 1].priority &&
+      priority < 0
     ) {
       throw new Error(
         'Para ocultar uma categoria, ela deve estar no final da lista'
