@@ -14,11 +14,14 @@ export class RemoveCategoryService {
       throw new Error('Essa categoria contém produtos')
     }
 
-    const categorys = await prismaClient.category.findMany()
-    const categoryPriority = categorys.find((ctgry) => ctgry.id === id)
-    const categoryLast = categorys.find(
-      (ctgry) => ctgry.priority === categorys.length - 1
+    const categorys = (await prismaClient.category.findMany()).sort(
+      (a, b) => a.priority - b.priority
     )
+    const categoryPriority = categorys.find((ctgry) => ctgry.id === id)
+
+    const categoryLast = categorys[categorys.length - 1]
+
+    console.log({ categoryLast })
 
     if (categoryPriority?.priority !== categorys.length - 1) {
       await prismaClient.category.update({

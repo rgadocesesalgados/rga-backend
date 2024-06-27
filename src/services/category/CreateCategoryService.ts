@@ -2,12 +2,27 @@ import { prismaClient } from '../../prisma'
 
 export class CreateCategoryService {
   async execute(name: string, priority: number) {
-    const existCategory = await prismaClient.category.findMany()
+    const existCategory = (await prismaClient.category.findMany()).sort(
+      (a, b) => a.priority - b.priority
+    )
 
-    if (priority > existCategory.length)
-      throw new Error(`Prioridade deve ser ${existCategory.length} ou menor`)
+    const existCategoryInit = existCategory.find(
+      (category) => category.priority === 0
+    )
 
-    if (priority < 0) throw new Error('Prioridade deve ser maior que 0')
+    if (!existCategoryInit && priority > 0) {
+      throw new Error('As prioridades devem iniciar em 0')
+    }
+
+    if (
+      priority > 0 &&
+      priority > existCategory[existCategory.length - 1].priority + 1
+    )
+      throw new Error(
+        `Prioridade deve ser ${
+          existCategory[existCategory.length - 1].priority + 1
+        } ou menor`
+      )
 
     if (existCategory.find((category) => category.name === name)) {
       throw new Error('Essa categoria já existe')
@@ -25,7 +40,7 @@ export class CreateCategoryService {
           id: categoryPriority.id,
         },
         data: {
-          priority: existCategory.length,
+          priority: existCategory[existCategory.length - 1].priority + 1,
         },
       })
     }

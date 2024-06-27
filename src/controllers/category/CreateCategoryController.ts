@@ -7,7 +7,7 @@ export class CreateCategoryController {
     const { name, priority } = req.body
 
     if (!name) throw new Error('Nome e obrigatório')
-    if (priority < 0 || typeof priority !== 'number')
+    if (typeof priority !== 'number')
       throw new Error('Prioridade e obrigatório')
 
     if (typeof priority !== 'number')

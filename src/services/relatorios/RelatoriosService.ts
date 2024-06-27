@@ -56,6 +56,7 @@ export class RelatoriosService {
                 name: true,
                 category_name: true,
                 category: { select: { priority: true } },
+                size: true,
               },
             },
             quantity: true,
@@ -143,6 +144,77 @@ export class RelatoriosService {
 
     bolos.sort((a, b) => a.date - b.date)
 
+    const orderWithSweetPP = orders.map(
+      ({ client, date, hour, delivery, type_frete, id, orderProduct }) => {
+        const productsPP = orderProduct.reduce((acc, product) => {
+          if (product.product.size === 'PP') {
+            Array.from({ length: product.quantity }).map(() => {
+              acc.push({ name: product.product.name, quantity: 1 })
+            })
+          }
+          return acc
+        }, [] as { name: string; quantity: number }[])
+
+        return {
+          client: client.name,
+          date,
+          hour,
+          delivery,
+          type_frete,
+          id,
+          productsPP,
+        }
+      }
+    )
+
+    const docesPP = orderWithSweetPP.reduce((acc, item) => {
+      const boxesPP = [100, 50, 25]
+      const products = item.productsPP
+      let productsLength = products.length
+
+      let count = 0
+      boxesPP.forEach((size) => {
+        if (productsLength === 0) return
+
+        while (productsLength >= size) {
+          const productsSize = products.slice(count, size + count)
+
+          const productsSizeJoin = productsSize.reduce(
+            (accProd, productSize) => {
+              const index = accProd.findIndex(
+                ({ name }) => name === productSize.name
+              )
+
+              if (index < 0) {
+                accProd.push({
+                  name: productSize.name,
+                  quantity: productSize.quantity,
+                })
+              } else {
+                accProd[index].quantity += productSize.quantity
+              }
+
+              return accProd
+            },
+            [] as { name: string; quantity: number }[]
+          )
+
+          acc.push({
+            client: item.client,
+            date: item.date,
+            hour: item.hour,
+            type_frete: item.delivery ? item.type_frete : undefined,
+            products: productsSizeJoin,
+          })
+
+          productsLength -= size
+          count += size
+        }
+      })
+
+      return acc
+    }, [] as { client: string; date: Date; hour: string; type_frete?: 'FRETE_CARRO' | 'FRETE_MOTO'; products: { name: string; quantity: number }[] }[])
+
     return {
       bolos: bolos.reduce((acc, item) => {
         if (item.status_order == 'EM_PRODUCAO') {
@@ -155,6 +227,7 @@ export class RelatoriosService {
       }, []),
       produtos: products,
       toppers,
+      docesPP,
     }
   }
 

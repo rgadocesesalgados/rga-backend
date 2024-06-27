@@ -52,23 +52,50 @@ export class ListOrderService {
         }
 
         const orderProductGet = () => {
-          return order.orderProduct.map((orderProduct) => {
-            return {
-              id: orderProduct.id,
-              product_id: orderProduct.product_id,
-              name: orderProduct.product.name,
-              price: orderProduct.price,
-              quantity: orderProduct.quantity,
-              category: {
-                id: orderProduct.product.category.id,
-                name: orderProduct.product.category.name,
-                priority: orderProduct.product.category.priority,
-              },
-              min_quantity: orderProduct.product.min_quantity,
-              total: orderProduct.total,
-              banner: orderProduct.product.banner,
-            } as GetOrderProduct
-          })
+          return order.orderProduct.reduce((acc, orderProduct) => {
+            if (orderProduct.product.size !== 'PP') {
+              acc.push({
+                id: orderProduct.id,
+                product_id: orderProduct.product_id,
+                name: orderProduct.product.name,
+                price: orderProduct.price,
+                quantity: orderProduct.quantity,
+                category: {
+                  id: orderProduct.product.category.id,
+                  name: orderProduct.product.category.name,
+                  priority: orderProduct.product.category.priority,
+                },
+                min_quantity: orderProduct.product.min_quantity,
+                total: orderProduct.total,
+                banner: orderProduct.product.banner,
+              })
+            }
+
+            return acc
+          }, [] as GetOrderProduct[])
+        }
+
+        const orderProductPPGet = () => {
+          return order.orderProduct.reduce((acc, orderProduct) => {
+            if (orderProduct.product.size === 'PP') {
+              acc.push({
+                id: orderProduct.id,
+                product_id: orderProduct.product_id,
+                name: orderProduct.product.name,
+                price: orderProduct.price,
+                quantity: orderProduct.quantity,
+                category: {
+                  id: orderProduct.product.category.id,
+                  name: orderProduct.product.category.name,
+                  priority: orderProduct.product.category.priority,
+                },
+                min_quantity: orderProduct.product.min_quantity,
+                total: orderProduct.total,
+                banner: orderProduct.product.banner,
+              })
+            }
+            return acc
+          }, [] as GetOrderProduct[])
         }
 
         const boloGet = () => {
@@ -164,6 +191,7 @@ export class ListOrderService {
           status: order.status,
           payment: paymentsGet(),
           orderProduct: orderProductGet(),
+          docesPP: orderProductPPGet(),
           bolo: boloGet(),
         } as GetOrder
       })
