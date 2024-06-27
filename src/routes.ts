@@ -177,7 +177,12 @@ routes.get('/order', isAuthenticated, new ListOrderController().handle)
 
 routes.patch('/order', isAuthenticated, new EditOrderController().handle)
 
-routes.delete('/order', isAuthenticated, new RemoveOrderController().handle)
+routes.delete(
+  '/order',
+  isAuthenticated,
+  isAdmin,
+  new RemoveOrderController().handle
+)
 
 routes.post('/bolo', isAuthenticated, new CreateBoloController().handle)
 
