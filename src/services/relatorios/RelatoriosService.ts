@@ -200,6 +200,7 @@ export class RelatoriosService {
           )
 
           acc.push({
+            id: item.id,
             client: item.client,
             date: item.date,
             hour: item.hour,
@@ -213,7 +214,7 @@ export class RelatoriosService {
       })
 
       return acc
-    }, [] as { client: string; date: Date; hour: string; type_frete?: 'FRETE_CARRO' | 'FRETE_MOTO'; products: { name: string; quantity: number }[] }[])
+    }, [] as { id: string; client: string; date: Date; hour: string; type_frete?: 'FRETE_CARRO' | 'FRETE_MOTO'; products: { name: string; quantity: number }[] }[])
 
     return {
       bolos: bolos.reduce((acc, item) => {
