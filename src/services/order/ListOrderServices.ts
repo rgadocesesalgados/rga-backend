@@ -8,13 +8,9 @@ import { GetRecheio } from '../../types/recheio'
 import { GetTopper } from '../../types/topper'
 
 export class ListOrderService {
-  async execute(): Promise<GetOrder[]> {
-    const date = new Date().setHours(0, 0, 0, 0)
-
+  async execute(all = false): Promise<GetOrder[]> {
     const orders = await prismaClient.order.findMany({
-      where: {
-        date: { gte: new Date(date) },
-      },
+      ...this.searchAll(all),
       include: {
         client: {
           include: {
@@ -202,5 +198,17 @@ export class ListOrderService {
     orderList.reverse()
 
     return orderList
+  }
+
+  searchAll(all = false) {
+    if (all) return
+
+    const date = new Date().setHours(0, 0, 0, 0)
+
+    return {
+      where: {
+        date: { gte: new Date(date) },
+      },
+    }
   }
 }
