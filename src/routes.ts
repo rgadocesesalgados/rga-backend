@@ -38,6 +38,7 @@ import multer from 'multer'
 import { RelatoriosController } from './controllers/relatorios/RelatoriosController'
 import { ToggleStatusController } from './controllers/relatorios/ToggleStatusController'
 import { ListDesliveryController } from './controllers/delivery/ListDesliveryController'
+import { ListTopperController } from './controllers/topper/ListTopper'
 
 const routes = Router()
 
@@ -210,6 +211,8 @@ routes.delete(
 
   new DeleteTopperController().handle
 )
+
+routes.get('/toppers', new ListTopperController().handle)
 
 routes.post('/relatorios', isAuthenticated, new RelatoriosController().handle)
 
