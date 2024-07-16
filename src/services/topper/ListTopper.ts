@@ -48,6 +48,7 @@ export class ListTopperServices {
         idade,
         banner,
         tema,
+        description,
       }) => {
         return {
           id,
@@ -58,6 +59,7 @@ export class ListTopperServices {
           date,
           hour,
           banner,
+          description,
         }
       }
     )
