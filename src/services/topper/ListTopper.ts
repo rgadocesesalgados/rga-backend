@@ -18,7 +18,7 @@ export class ListTopperServices {
               gte: today,
               lt: nextDay,
             },
-            status: 'ANOTADO'
+            status: 'EM_PRODUCAO'
           },
         },
       },
