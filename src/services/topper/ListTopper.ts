@@ -18,6 +18,7 @@ export class ListTopperServices {
               gte: today,
               lt: nextDay,
             },
+            status: 'ANOTADO'
           },
         },
       },
