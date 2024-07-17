@@ -18,7 +18,12 @@ export class ListTopperServices {
               gte: today,
               lt: nextDay,
             },
-            status: 'EM_PRODUCAO'
+           OR: [
+              {status: 'ANOTADO'},
+              {status: 'EM_PRODUCAO'}
+           ]
+           
+       
           },
         },
       },
@@ -39,11 +44,20 @@ export class ListTopperServices {
       },
     })
 
+    toppers.sort((a, b) => {
+      const dateA = new Date(a.bolo.order.date)
+      const dateB = new Date(b.bolo.order.date)
+
+      return dateA.getTime() - dateB.getTime()
+    })
+
     return toppers.map(
       ({
         id,
         bolo: {
           order: { date, hour, client },
+          peso
+
         },
         name,
         idade,
@@ -54,6 +68,7 @@ export class ListTopperServices {
         return {
           id,
           client_name: client.name,
+          peso,
           tema,
           name,
           idade,
