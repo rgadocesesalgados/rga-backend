@@ -143,7 +143,7 @@ export class ListOrderService {
           if (order.delivery) {
             return {
               id: order.address_id,
-              rua: order.address.rua,
+              rua: order.address?.rua,
               numero: order.address.numero,
               bairro: order.address.bairro,
               ponto_de_referencia: order.address.ponto_de_referencia,
@@ -167,7 +167,7 @@ export class ListOrderService {
             tel: order.client.tel,
             address: {
               id: order.client.address_id,
-              rua: order.client.address.rua,
+              rua: order.client.address?.rua,
               numero: order.client.address.numero,
               bairro: order.client.address.bairro,
               cidade: order.client.address.cidade,
