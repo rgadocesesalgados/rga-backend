@@ -53,7 +53,13 @@ export class ToDoTopperService {
       },
     })
 
-    console.log({ topper })
+    topper.sort((a, b) => {
+      const dateA = new Date(a.bolo.order.date)
+      const dateB = new Date(b.bolo.order.date)
+
+      return dateA.getTime() - dateB.getTime()
+    })
+
     return topper.map((topper) => {
       return {
         id: topper.id,
