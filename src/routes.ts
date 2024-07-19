@@ -34,11 +34,12 @@ import { EditAddressController } from './controllers/address/EditAddressControll
 import { UserDetailsController } from './controllers/user/UserDetailsController'
 import { DeleteClientController } from './controllers/client/DeleteClientController'
 import { RemoveAddressController } from './controllers/address/RemoveAddressController'
-import multer from 'multer'
 import { RelatoriosController } from './controllers/relatorios/RelatoriosController'
 import { ToggleStatusController } from './controllers/relatorios/ToggleStatusController'
 import { ListDesliveryController } from './controllers/delivery/ListDesliveryController'
 import { ListTopperController } from './controllers/topper/ListTopper'
+import { ToDoTopperController } from './controllers/topper/ToDoTopperController'
+import { ToDoTopperCheckController } from './controllers/topper/ToDoTopperCheckController'
 
 const routes = Router()
 
@@ -211,6 +212,9 @@ routes.delete(
 
   new DeleteTopperController().handle
 )
+
+routes.get('/topper', new ToDoTopperController().handle)
+routes.patch('/topper', new ToDoTopperCheckController().handle)
 
 routes.get('/toppers', new ListTopperController().handle)
 

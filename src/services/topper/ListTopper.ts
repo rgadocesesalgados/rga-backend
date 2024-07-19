@@ -12,18 +12,14 @@ export class ListTopperServices {
 
     const toppers = await prismaClient.topper.findMany({
       where: {
+        recebido: false,
         bolo: {
           order: {
             date: {
               gte: today,
               lt: nextDay,
             },
-           OR: [
-              {status: 'ANOTADO'},
-              {status: 'EM_PRODUCAO'}
-           ]
-           
-       
+            OR: [{ status: 'ANOTADO' }, { status: 'EM_PRODUCAO' }],
           },
         },
       },
@@ -56,8 +52,7 @@ export class ListTopperServices {
         id,
         bolo: {
           order: { date, hour, client },
-          peso
-
+          peso,
         },
         name,
         idade,

@@ -119,6 +119,7 @@ export class ListOrderService {
                   price: bolo.topper.price,
                   description: bolo.topper.description,
                   banner: bolo.topper.banner,
+                  recebido: bolo.topper.recebido,
                 } as GetTopper
               } else {
                 return null

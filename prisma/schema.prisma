@@ -141,6 +141,7 @@ model Topper {
   idade       Int?
   price       Float    @default(15)
   description String?
+  recebido    Boolean  @default(false)
   banner      String   @default("")
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())

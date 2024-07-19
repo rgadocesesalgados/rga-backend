@@ -9,9 +9,11 @@ export class EditOrderService {
     await prismaClient.topper.deleteMany({
       where: { bolo: { order_id: data.id } },
     })
+
     await prismaClient.bolo.deleteMany({
       where: { order_id: data.id },
     })
+
     await prismaClient.orderProduct.deleteMany({ where: { order_id: data.id } })
     await prismaClient.payment.deleteMany({ where: { order_id: data.id } })
 
@@ -64,6 +66,7 @@ export class EditOrderService {
             price: topper.price,
             description: topper.description,
             banner: topper.banner,
+            recebido: topper.recebido,
           },
         },
       }
