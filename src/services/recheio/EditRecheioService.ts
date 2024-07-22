@@ -9,6 +9,7 @@ export class EditRecheioService {
     banner,
     is_pesado,
     to_bento_cake,
+    price_fixed,
   }: RecheioProps & { id: string }) {
     const recheio = await prismaClient.recheio.update({
       where: {
@@ -20,6 +21,7 @@ export class EditRecheioService {
         banner,
         is_pesado,
         to_bento_cake,
+        price_fixed,
       },
     })
 

@@ -7,7 +7,7 @@ import {
 
 export class CreateRecheioController {
   async handle(req: RequestWithUser, res: Response) {
-    const { name, banner, price, is_pesado, to_bento_cake } =
+    const { name, banner, price, is_pesado, to_bento_cake, price_fixed } =
       req.body as RecheioProps
 
     if (!name) throw new Error('Nome e obrigatório')
@@ -24,6 +24,7 @@ export class CreateRecheioController {
       price,
       is_pesado,
       to_bento_cake,
+      price_fixed,
     })
 
     return res.json(recheio)

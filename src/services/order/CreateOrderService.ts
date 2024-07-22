@@ -23,8 +23,6 @@ export class CreateOrderService {
   }: OrderCreate) {
     if (!client_id) throw new Error('Cliente é obrigatório')
 
-    const [hours, minutes] = hour.split(':')
-
     const order = await prismaClient.order.create({
       data: {
         client: { connect: { id: client_id } },

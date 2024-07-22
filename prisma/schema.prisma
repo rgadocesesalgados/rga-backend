@@ -125,6 +125,7 @@ enum Cobertura {
   NATA
   CLARA_QUEIMADA
   AVELA_BATIDO
+  KIT_KAT
 }
 
 enum Massa {
@@ -153,6 +154,7 @@ model Recheio {
   id            String   @id @default(uuid())
   name          String
   price         Float
+  price_fixed   Boolean  @default(false)
   is_pesado     Boolean  @default(false)
   to_bento_cake Boolean  @default(true)
   banner        String   @default("")

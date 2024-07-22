@@ -4,6 +4,7 @@ export interface RecheioProps {
   name: string
   price: number
   banner: string
+  price_fixed: boolean
   is_pesado: boolean
   to_bento_cake: boolean
 }
@@ -12,6 +13,7 @@ export class CreateRecheioService {
     name,
     price,
     banner,
+    price_fixed,
     is_pesado,
     to_bento_cake,
   }: RecheioProps) {
@@ -22,6 +24,7 @@ export class CreateRecheioService {
         banner,
         is_pesado,
         to_bento_cake,
+        price_fixed,
       },
     })
 
