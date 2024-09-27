@@ -38,6 +38,11 @@ const createUserAdmin = async () => {
 }
 
 const Main = async () => {
+  if (!process.env.ADMIN_TEL || !process.env.ADMIN_PASSWORD) {
+    console.log('Env ADMIN_TEL e ADMIN_PASSWORD devem ser definidas')
+    return
+  }
+
   console.log('Verificando se o admin existe...')
 
   const userAlreadyExists = await adminCheckExists()
