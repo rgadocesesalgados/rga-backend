@@ -40,6 +40,7 @@ import { ListDesliveryController } from './controllers/delivery/ListDesliveryCon
 import { ListTopperController } from './controllers/topper/ListTopper'
 import { ToDoTopperController } from './controllers/topper/ToDoTopperController'
 import { ToDoTopperCheckController } from './controllers/topper/ToDoTopperCheckController'
+import { ListFinancialReportController } from './controllers/financial-report/get'
 
 const routes = Router()
 
@@ -213,8 +214,8 @@ routes.delete(
   new DeleteTopperController().handle
 )
 
-routes.get('/topper', new ToDoTopperController().handle)
-routes.patch('/topper', new ToDoTopperCheckController().handle)
+routes.get('/topper', isAuthenticated, new ToDoTopperController().handle)
+routes.patch('/topper', isAuthenticated, new ToDoTopperCheckController().handle)
 
 routes.get('/toppers', new ListTopperController().handle)
 
@@ -228,4 +229,10 @@ routes.patch(
 
 routes.get('/delivery', isAuthenticated, new ListDesliveryController().handle)
 
+routes.get(
+  '/financial-report',
+  isAuthenticated,
+  isAdmin,
+  new ListFinancialReportController().handle
+)
 export { routes }
