@@ -22,7 +22,7 @@ const createUserAdmin = async () => {
   const user = await prismaClient.user.create({
     data: {
       name: 'Admin',
-      tel: '44998692094',
+      tel: process.env.ADMIN_TEL,
       password: hashPassword,
       role: 'ADMIN',
     },
