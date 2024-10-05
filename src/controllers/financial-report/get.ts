@@ -4,20 +4,20 @@ import { ListFinancialReportService } from '../../services/financial-report/get'
 
 const schema = z
   .object({
-    todayStart: z.coerce
+    startDate: z.coerce
       .number()
       .nonnegative()
       .transform((value) => new Date(value).setHours(0, 0, 0, 0)),
-    todayEnd: z.coerce
+    endDate: z.coerce
       .number()
       .nonnegative()
       .transform((value) => new Date(value).setHours(23, 59, 59, 999)),
   })
   .transform((fields) => {
-    if (fields.todayStart > fields.todayEnd) {
+    if (fields.startDate > fields.endDate) {
       return {
-        todayStart: fields.todayStart,
-        todayEnd: new Date(fields.todayStart).setHours(23, 59, 59, 999),
+        startDate: fields.startDate,
+        endDate: new Date(fields.startDate).setHours(23, 59, 59, 999),
       }
     }
 
@@ -26,23 +26,22 @@ const schema = z
 
 export class ListFinancialReportController {
   async handle(req: Request, res: Response) {
-    const todayStart = +req.query.todayStart || new Date().setHours(0, 0, 0, 0)
-    const todayEnd = +req.query.todayEnd || new Date().setHours(23, 59, 59, 999)
+    const startDate = +req.query.startDate || new Date().setHours(0, 0, 0, 0)
+    const endDate = +req.query.endDate || new Date().setHours(23, 59, 59, 999)
 
-    const { todayStart: parseTodayStart, todayEnd: parseTodayEnd } =
-      schema.parse({
-        todayStart,
-        todayEnd,
-      })
+    const { startDate: parseStartDate, endDate: parseEndDate } = schema.parse({
+      startDate: startDate,
+      endDate: endDate,
+    })
 
     const { value } = await new ListFinancialReportService().execute({
-      endDate: parseTodayEnd,
-      startDate: parseTodayStart,
+      endDate: parseEndDate,
+      startDate: parseStartDate,
     })
 
     return res.json({
-      today_end: parseTodayEnd,
-      today_start: parseTodayStart,
+      end_date: parseEndDate,
+      start_date: parseStartDate,
       value,
     })
   }
