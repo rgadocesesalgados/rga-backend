@@ -26,8 +26,8 @@ const schema = z
 
 export class ListFinancialReportController {
   async handle(req: Request, res: Response) {
-    const startDate = +req.query.startDate || new Date().setHours(0, 0, 0, 0)
-    const endDate = +req.query.endDate || new Date().setHours(23, 59, 59, 999)
+    const startDate = +req.query?.startDate || new Date().setHours(0, 0, 0, 0)
+    const endDate = +req.query?.endDate || new Date().setHours(23, 59, 59, 999)
 
     const { startDate: parseStartDate, endDate: parseEndDate } = schema.parse({
       startDate: startDate,

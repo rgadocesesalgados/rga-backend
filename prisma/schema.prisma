@@ -238,3 +238,11 @@ model OrderProduct {
 
   @@map("order_products")
 }
+
+model Supplier {
+  id   String @id @default(uuid())
+  name String
+  tel  String @unique
+
+  @@map("suppliers")
+}

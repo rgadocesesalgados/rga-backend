@@ -41,6 +41,9 @@ import { ListTopperController } from './controllers/topper/ListTopper'
 import { ToDoTopperController } from './controllers/topper/ToDoTopperController'
 import { ToDoTopperCheckController } from './controllers/topper/ToDoTopperCheckController'
 import { ListFinancialReportController } from './controllers/financial-report/get'
+import { CreateSupplierController } from './controllers/supplier/post'
+import { ListSupplierController } from './controllers/supplier/get'
+import { RemoveSupplierController } from './controllers/supplier/delete'
 
 const routes = Router()
 
@@ -235,4 +238,14 @@ routes.get(
   isAdmin,
   new ListFinancialReportController().handle
 )
+
+routes.post('/supplier', isAuthenticated, new CreateSupplierController().handle)
+routes.get('/supplier', isAuthenticated, new ListSupplierController().handle)
+routes.delete(
+  '/supplier/:id',
+  isAuthenticated,
+  isAdmin,
+  new RemoveSupplierController().handle
+)
+
 export { routes }
