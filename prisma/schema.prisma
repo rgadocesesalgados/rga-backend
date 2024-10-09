@@ -243,6 +243,17 @@ model Supplier {
   id   String @id @default(uuid())
   name String
   tel  String @unique
+  outs Out[]
 
   @@map("suppliers")
+}
+
+model Out {
+  id          String   @id @default(uuid())
+  supplier    Supplier @relation(fields: [supplier_id], references: [id], onDelete: Cascade)
+  supplier_id String
+  value       Float
+  date        DateTime
+
+  @@map("outs")
 }

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { z } from 'zod'
 import { ListFinancialReportService } from '../../services/financial-report/get'
 
-const schema = z
+export const schema = z
   .object({
     startDate: z.coerce
       .number()

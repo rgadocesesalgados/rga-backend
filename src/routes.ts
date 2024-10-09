@@ -44,6 +44,9 @@ import { ListFinancialReportController } from './controllers/financial-report/ge
 import { CreateSupplierController } from './controllers/supplier/post'
 import { ListSupplierController } from './controllers/supplier/get'
 import { RemoveSupplierController } from './controllers/supplier/delete'
+import { PostOutController } from './controllers/out/post'
+import { DeleteOut } from './controllers/out/delete'
+import { ListOutController } from './controllers/out/get'
 
 const routes = Router()
 
@@ -239,8 +242,18 @@ routes.get(
   new ListFinancialReportController().handle
 )
 
-routes.post('/supplier', isAuthenticated, new CreateSupplierController().handle)
-routes.get('/supplier', isAuthenticated, new ListSupplierController().handle)
+routes.post(
+  '/supplier',
+  isAuthenticated,
+  isAdmin,
+  new CreateSupplierController().handle
+)
+routes.get(
+  '/supplier',
+  isAuthenticated,
+  isAdmin,
+  new ListSupplierController().handle
+)
 routes.delete(
   '/supplier/:id',
   isAuthenticated,
@@ -248,4 +261,7 @@ routes.delete(
   new RemoveSupplierController().handle
 )
 
+routes.post('/out', isAuthenticated, isAdmin, new PostOutController().handle)
+routes.delete('/out/:id', isAuthenticated, isAdmin, new DeleteOut().handle)
+routes.get('/out', isAuthenticated, isAdmin, new ListOutController().handle)
 export { routes }
