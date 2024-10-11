@@ -13,8 +13,8 @@ export class ListOutController {
     })
 
     const listOutService = await new ListOut().execute({
-      endDate,
-      startDate,
+      endDate: parseEndDate,
+      startDate: parseStartDate,
     })
     res.status(200).json(listOutService)
   }
