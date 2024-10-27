@@ -34,6 +34,7 @@ export class ToDoTopperService {
         tema: true,
         recebido: true,
         banner: true,
+        description: true,
         bolo: {
           select: {
             peso: true,
@@ -70,6 +71,7 @@ export class ToDoTopperService {
         hour: topper.bolo.order.hour,
         recebido: topper.recebido,
         banner: topper.banner,
+        description: topper.description,
       } as Tooper
     })
   }
