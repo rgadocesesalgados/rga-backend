@@ -45,6 +45,8 @@ async function createAdress() {
         bairro: 'Jardim Paulistano',
         cidade: 'São Paulo',
         ponto_de_referencia: 'Casa',
+        address_complete:
+          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
       },
 
       {
@@ -53,6 +55,8 @@ async function createAdress() {
         bairro: 'Jardim Paulistano',
         cidade: 'São Paulo',
         ponto_de_referencia: 'Casa',
+        address_complete:
+          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
       },
 
       {
@@ -61,6 +65,8 @@ async function createAdress() {
         bairro: 'Jardim Paulistano',
         cidade: 'São Paulo',
         ponto_de_referencia: 'Casa',
+        address_complete:
+          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
       },
     ],
   })
