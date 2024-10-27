@@ -13,6 +13,27 @@ async function main() {
   await createAdress()
 
   await createClients()
+
+  await crateRecheios()
+}
+
+async function crateRecheios() {
+  await prismaClient.recheio.createMany({
+    data: [
+      {
+        name: 'Morango',
+        price: 50,
+        is_pesado: true,
+        price_fixed: true,
+        to_bento_cake: false,
+      },
+      {
+        name: 'Baunilha',
+        price: 34,
+        to_bento_cake: true,
+      },
+    ],
+  })
 }
 
 async function createAdress() {
