@@ -5,4 +5,5 @@ export interface GetRecheio {
   is_pesado: boolean
   to_bento_cake: boolean
   banner: string
+  price_fixed: boolean
 }
