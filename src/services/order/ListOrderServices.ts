@@ -105,6 +105,7 @@ export class ListOrderService {
                   is_pesado: recheio.is_pesado,
                   to_bento_cake: recheio.to_bento_cake,
                   banner: recheio.banner,
+                  price_fixed: recheio.price_fixed,
                 } as GetRecheio
               })
             }
