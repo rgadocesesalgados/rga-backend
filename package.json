@@ -12,7 +12,7 @@
     "migrate": "dotenv -e .env.development -- prisma migrate dev",
     "wait-for-postgres": "node scripts/wait-for-postgres.js",
     "studio": "dotenv -e .env.development -- prisma studio",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "jest --watchAll --runInBand"
   },
   "prisma": {
