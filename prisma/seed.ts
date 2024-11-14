@@ -1,3 +1,5 @@
+import { fakerPT_BR as faker } from '@faker-js/faker'
+
 import { PrismaClient } from '@prisma/client'
 import { exec } from 'child_process'
 
@@ -38,48 +40,39 @@ async function crateRecheios() {
 
 async function createAdress() {
   return await prismaClient.address.createMany({
-    data: [
-      {
-        rua: 'Av. Brigadeiro Faria Lima',
-        numero: 1000,
-        bairro: 'Jardim Paulistano',
-        cidade: 'São Paulo',
-        ponto_de_referencia: 'Casa',
-        address_complete:
-          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
-      },
+    data: Array.from({ length: 100 }).map(() => {
+      const rua = faker.location.street().split(' ').reverse().join(' ')
+      const numero = +faker.location.buildingNumber()
+      const bairro = faker.location.direction()
+      const cidade = faker.location.city()
+      const ponto_de_referencia = faker.location.secondaryAddress()
+      const address_complete = `${rua} - ${numero}, ${bairro}, ${ponto_de_referencia}, ${cidade}`
+      const frete_moto = faker.number.int({ min: 5, max: 100 })
+      const frete_carro = frete_moto * 2
 
-      {
-        rua: 'Av. Brigadeiro Faria Lima',
-        numero: 1000,
-        bairro: 'Jardim Paulistano',
-        cidade: 'São Paulo',
-        ponto_de_referencia: 'Casa',
-        address_complete:
-          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
-      },
-
-      {
-        rua: 'Av. Brigadeiro Faria Lima',
-        numero: 1000,
-        bairro: 'Jardim Paulistano',
-        cidade: 'São Paulo',
-        ponto_de_referencia: 'Casa',
-        address_complete:
-          'Av. Brigadeiro Faria Lima, 1000, Jardim Paulistano, São Paulo, SP',
-      },
-    ],
+      return {
+        rua,
+        numero,
+        bairro,
+        cidade,
+        ponto_de_referencia,
+        address_complete,
+        frete_carro,
+        frete_moto,
+      }
+    }),
   })
 }
 async function createClients() {
   const address = await prismaClient.address.findMany()
-  const clients = ['João', 'Maria', 'Pedro']
 
   await prismaClient.client.createMany({
-    data: address.map(({ id }, index) => {
+    data: address.map(({ id }) => {
+      const name = faker.person.fullName()
+      const tel = faker.phone.number()
       return {
-        name: clients[index],
-        tel: index.toString(),
+        name,
+        tel,
         address_id: id,
       }
     }),
