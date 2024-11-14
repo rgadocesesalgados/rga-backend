@@ -47,6 +47,7 @@ import { RemoveSupplierController } from './controllers/supplier/delete'
 import { PostOutController } from './controllers/out/post'
 import { DeleteOut } from './controllers/out/delete'
 import { ListOutController } from './controllers/out/get'
+import { SearchClientController } from './controllers/searchClient/SearchClient'
 
 const routes = Router()
 
@@ -264,4 +265,11 @@ routes.delete(
 routes.post('/out', isAuthenticated, isAdmin, new PostOutController().handle)
 routes.delete('/out/:id', isAuthenticated, isAdmin, new DeleteOut().handle)
 routes.get('/out', isAuthenticated, isAdmin, new ListOutController().handle)
+
+routes.get(
+  '/search-client/:query',
+  isAuthenticated,
+  new SearchClientController().handle
+)
+
 export { routes }
