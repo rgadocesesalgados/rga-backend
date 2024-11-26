@@ -19,6 +19,9 @@ export class SearchClientService {
               mode: 'insensitive',
             },
           },
+          {
+            id: query,
+          },
         ],
       },
     })
