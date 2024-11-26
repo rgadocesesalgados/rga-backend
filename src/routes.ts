@@ -48,6 +48,7 @@ import { PostOutController } from './controllers/out/post'
 import { DeleteOut } from './controllers/out/delete'
 import { ListOutController } from './controllers/out/get'
 import { SearchClientController } from './controllers/searchClient/SearchClient'
+import { SearchAddressController } from './controllers/searchAddress/SearchAddress'
 
 const routes = Router()
 
@@ -270,6 +271,12 @@ routes.get(
   '/search-client/:query',
   isAuthenticated,
   new SearchClientController().handle
+)
+
+routes.get(
+  '/search-address/:query',
+  isAuthenticated,
+  new SearchAddressController().handle
 )
 
 export { routes }
