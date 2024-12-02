@@ -32,7 +32,7 @@ export class EditOrderController {
       cor_forminhas,
       observations,
       delivery,
-      address,
+      address: delivery ? address : {},
       total,
       payment,
       status,
