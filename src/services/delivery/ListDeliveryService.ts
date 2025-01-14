@@ -22,6 +22,7 @@ export class ListDeliveryService {
         date: true,
         hour: true,
         type_frete: true,
+        payment: { select: { paid: true, value: true } },
       },
     })
 
@@ -31,6 +32,12 @@ export class ListDeliveryService {
       const [hours, minutes] = order.hour.split(':')
 
       const priorityDate = date.setHours(Number(hours), Number(minutes), 0, 0)
+
+      const payment = order.payment.reduce((acc, payment) => {
+        if (payment.paid) return acc + payment.value
+
+        return acc
+      }, 0)
       return {
         id: order.id,
         date: order.date,
@@ -39,6 +46,7 @@ export class ListDeliveryService {
         address_complete: order.address.address_complete,
         priorityDate,
         type_delivery: order.type_frete,
+        payment: !!payment ? payment : null,
       }
     })
 
