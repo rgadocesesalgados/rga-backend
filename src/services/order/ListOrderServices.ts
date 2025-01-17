@@ -203,13 +203,20 @@ export class ListOrderService {
   }
 
   searchAll(all = false) {
-    if (all) return
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
 
-    const date = new Date().setHours(0, 0, 0, 0)
+    if (all) {
+      date.setDate(1)
+      const month = date.getMonth()
+      if (month > 2) {
+        date.setMonth(month - 2)
+      }
+    }
 
     return {
       where: {
-        date: { gte: new Date(date) },
+        date: { gte: date },
       },
     }
   }
