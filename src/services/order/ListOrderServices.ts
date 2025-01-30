@@ -208,10 +208,8 @@ export class ListOrderService {
 
     if (all) {
       date.setDate(1)
-      const month = date.getMonth()
-      if (month > 2) {
-        date.setMonth(month - 2)
-      }
+
+      date.setMonth(-2)
     }
 
     return {
