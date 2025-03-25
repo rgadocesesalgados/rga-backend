@@ -43,7 +43,9 @@ export class ListDeliveryService {
         date: order.date,
         hour: order.hour,
         client_name: order.client.name,
-        address_complete: order.address.address_complete,
+        address_complete: !!order.address?.address_complete
+          ? order.address.address_complete
+          : '',
         priorityDate,
         type_delivery: order.type_frete,
         payment: !!payment ? payment : null,
