@@ -200,6 +200,7 @@ enum Status {
   EM_PRODUCAO
   ENTREGUE
   CANCELADO
+  ORCAMENTO
 }
 
 model Payment {
