@@ -24,6 +24,7 @@ export class ToDoTopperService {
             date: {
               gte: dateInitial,
             },
+            status: { notIn: ['CANCELADO', 'ORCAMENTO'] },
           },
         },
       },
