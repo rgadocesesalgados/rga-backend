@@ -14,7 +14,11 @@ export class ListDeliveryService {
     today.setHours(0, 0, 0, 0)
 
     const orders = await prismaClient.order.findMany({
-      where: { delivery: true, date: { gte: today } },
+      where: {
+        delivery: true,
+        date: { gte: today },
+        status: { notIn: ['CANCELADO', 'ORCAMENTO'] },
+      },
       select: {
         id: true,
         client: { select: { name: true } },
