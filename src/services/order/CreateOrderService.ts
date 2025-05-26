@@ -98,6 +98,7 @@ export class CreateOrderService {
             price: topper.price,
             description: topper.description,
             banner: topper.banner,
+            fornecedor: topper.fornecedor,
           },
         },
       }

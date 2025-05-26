@@ -67,6 +67,7 @@ export class EditOrderService {
             description: topper.description,
             banner: topper.banner,
             recebido: topper.recebido,
+            fornecedor: topper.fornecedor,
           },
         },
       }
