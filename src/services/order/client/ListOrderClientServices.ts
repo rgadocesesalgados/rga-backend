@@ -1,21 +1,16 @@
-import { prismaClient } from '../../prisma'
-import { GetAddress } from '../../types/address'
-import { GetCake } from '../../types/cake'
-import { GetOrder } from '../../types/order'
-import { GetOrderProduct } from '../../types/order-product'
-import { GetPayment } from '../../types/payment'
-import { GetRecheio } from '../../types/recheio'
-import { GetTopper } from '../../types/topper'
+import { prismaClient } from '../../../prisma'
+import { GetAddress } from '../../../types/address'
+import { GetCake } from '../../../types/cake'
+import { GetOrder } from '../../../types/order'
+import { GetOrderProduct } from '../../../types/order-product'
+import { GetPayment } from '../../../types/payment'
+import { GetRecheio } from '../../../types/recheio'
+import { GetTopper } from '../../../types/topper'
 
-export class ListOrderService {
-  async execute(): Promise<GetOrder[]> {
-    const date = new Date()
-    date.setHours(0, 0, 0, 0)
-
+export class ListOrderClientService {
+  async execute(clientId: string): Promise<GetOrder[]> {
     const orders = await prismaClient.order.findMany({
-      where: {
-        date: { gte: date },
-      },
+      where: { client_id: clientId },
       include: {
         client: {
           include: {
