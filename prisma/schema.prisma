@@ -146,8 +146,14 @@ model Topper {
   banner      String   @default("")
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
+  fornecedor FORNECEDORES @default(FORNECEDOR_PRINCIPAL)
 
   @@map("toppers")
+}
+
+enum FORNECEDORES {
+  FORNECEDOR_PRINCIPAL
+  FORNECEDOR_SECUNDARIO
 }
 
 model Recheio {

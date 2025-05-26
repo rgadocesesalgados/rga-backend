@@ -14,6 +14,7 @@ interface Tooper {
   banner: string
   description: string
   recebido: boolean
+  fornecedor: 'FORNECEDOR_PRINCIPAL' | 'FORNECEDOR_SECUNDARIO'
 }
 export class ToDoTopperService {
   async execute({ dateInitial }: TopperProps) {
@@ -36,6 +37,7 @@ export class ToDoTopperService {
         recebido: true,
         banner: true,
         description: true,
+        fornecedor: true,
         bolo: {
           select: {
             peso: true,
@@ -73,6 +75,7 @@ export class ToDoTopperService {
         recebido: topper.recebido,
         banner: topper.banner,
         description: topper.description,
+        fornecedor: topper.fornecedor,
       } as Tooper
     })
   }
