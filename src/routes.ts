@@ -225,7 +225,7 @@ routes.delete(
 routes.get('/topper', isAuthenticated, new ToDoTopperController().handle)
 routes.patch('/topper', isAuthenticated, new ToDoTopperCheckController().handle)
 
-routes.get('/toppers', new ListTopperController().handle)
+routes.get('/toppers/:fornecedor', new ListTopperController().handle)
 
 routes.post('/relatorios', isAuthenticated, new RelatoriosController().handle)
 

@@ -1,7 +1,7 @@
 import { prismaClient } from '../../prisma'
 
 export class ListTopperServices {
-  async execute() {
+  async execute(fornecedor: 'FORNECEDOR_PRINCIPAL' | 'FORNECEDOR_SECUNDARIO') {
     const today = new Date()
 
     today.setHours(0, 0, 0, 0)
@@ -12,6 +12,7 @@ export class ListTopperServices {
 
     const toppers = await prismaClient.topper.findMany({
       where: {
+        fornecedor: fornecedor,
         recebido: false,
         bolo: {
           order: {
@@ -59,6 +60,7 @@ export class ListTopperServices {
         banner,
         tema,
         description,
+        fornecedor,
       }) => {
         return {
           id,
@@ -71,6 +73,7 @@ export class ListTopperServices {
           hour,
           banner,
           description,
+          fornecedor,
         }
       }
     )
