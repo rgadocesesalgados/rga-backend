@@ -8,15 +8,15 @@ export interface DeliveryProps {
   address_complete: string
 }
 export class ListDeliveryService {
-  async execute() {
-    const today = new Date()
+  async execute(date = new Date()) {
+    const startDate = new Date(date.setHours(0, 0, 0, 0))
 
-    today.setHours(0, 0, 0, 0)
+    const endDate = new Date(date.setHours(23, 59, 59))
 
     const orders = await prismaClient.order.findMany({
       where: {
         delivery: true,
-        date: { gte: today },
+        date: { gte: startDate, lte: endDate },
         status: { notIn: ['CANCELADO', 'ORCAMENTO'] },
       },
       select: {
