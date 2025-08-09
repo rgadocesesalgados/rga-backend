@@ -26,6 +26,7 @@ export class ListDeliveryService {
         date: true,
         hour: true,
         type_frete: true,
+        value_frete: true,
         payment: { select: { paid: true, value: true } },
       },
     })
@@ -53,6 +54,7 @@ export class ListDeliveryService {
         priorityDate,
         type_delivery: order.type_frete,
         payment: !!payment ? payment : null,
+        value_frete: order.value_frete,
       }
     })
 
