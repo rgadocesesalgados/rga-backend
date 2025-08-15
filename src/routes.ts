@@ -50,6 +50,7 @@ import { ListOutController } from './controllers/out/get'
 import { SearchClientController } from './controllers/searchClient/SearchClient'
 import { SearchAddressController } from './controllers/searchAddress/SearchAddress'
 import { ListOrderClientController } from './controllers/order/client/ListOrderClientController'
+import { FindUniqueOrderController } from './controllers/order/FindUniqueOrderController'
 
 const routes = Router()
 
@@ -286,4 +287,9 @@ routes.get(
   new ListOrderClientController().handle
 )
 
+routes.get(
+  '/orders/:id',
+  isAuthenticated,
+  new FindUniqueOrderController().handle
+)
 export { routes }
