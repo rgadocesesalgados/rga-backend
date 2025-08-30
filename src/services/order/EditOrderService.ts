@@ -5,7 +5,14 @@ import { PaymentCreate } from '../../types/payment'
 import { TopperCreate } from '../../types/topper'
 
 export class EditOrderService {
-  async execute({ bolo, orderProduct, address, payment, ...data }: EditOrder) {
+  async execute({
+    bolo,
+    orderProduct,
+    address,
+    payment,
+    boxes,
+    ...data
+  }: EditOrder) {
     await prismaClient.topper.deleteMany({
       where: { bolo: { order_id: data.id } },
     })
@@ -16,6 +23,7 @@ export class EditOrderService {
 
     await prismaClient.orderProduct.deleteMany({ where: { order_id: data.id } })
     await prismaClient.payment.deleteMany({ where: { order_id: data.id } })
+    await prismaClient.box.deleteMany({ where: { orderId: data.id } })
 
     const order = await prismaClient.order.update({
       where: {
@@ -27,6 +35,11 @@ export class EditOrderService {
         },
         orderProduct: {
           createMany: { data: orderProduct.length > 0 ? orderProduct : [] },
+        },
+        boxes: {
+          create: boxes.map(({ products }) => ({
+            ordeProduct: { create: products },
+          })),
         },
         payment: { createMany: { data: this.#havePayment(payment) } },
         address_id: address.address_id,

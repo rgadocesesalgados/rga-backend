@@ -5,7 +5,6 @@ export interface ProductProps {
   price: number
   min_quantity: number
   banner?: string
-  size: 'PP' | 'P' | 'M' | 'G' | 'GG' | 'UNIT' | 'NOT'
   category_id?: string
 }
 export class CreateProductService {
@@ -15,7 +14,6 @@ export class CreateProductService {
     min_quantity,
     banner,
     category_id,
-    size,
   }: ProductProps) {
     if (!name || !price || !min_quantity) {
       throw new Error('Name, price and min_quantity are required')
@@ -36,7 +34,6 @@ export class CreateProductService {
             id: category_id,
           },
         },
-        size,
       },
       select: {
         id: true,

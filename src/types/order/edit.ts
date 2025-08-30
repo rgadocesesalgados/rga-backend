@@ -17,5 +17,13 @@ export interface EditOrder {
   observations: string
   total: number
   delivery: boolean
+  boxes?: {
+    products?: {
+      product_id?: string
+      quantity?: number
+      price?: number
+      total?: number
+    }[]
+  }[]
   status: 'RASCUNHO' | 'ANOTADO' | 'EM_PRODUCAO' | 'ENTREGUE' | 'CANCELADO'
 }

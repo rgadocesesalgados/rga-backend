@@ -19,7 +19,6 @@ export class ListProductService {
           banner: product.banner,
           category_name: product.category.name,
           category_id: product.category.id,
-          size: product.size,
         }
       })
       .sort((a, b) => sortByAscendingName(a.name, b.name))

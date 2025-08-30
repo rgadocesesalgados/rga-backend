@@ -5,7 +5,7 @@ import { EditeProductService } from '../../services/product/EditeProductService'
 
 export class EditeProductController {
   async handle(req: RequestWithUser, res: Response) {
-    const { id, name, price, min_quantity, banner, size } =
+    const { id, name, price, min_quantity, banner } =
       req.body as ProductProps & { id: string }
 
     const { category_id } = req.query as { category_id: string }
@@ -21,7 +21,6 @@ export class EditeProductController {
       min_quantity,
       banner,
       category_id,
-      size,
     })
 
     return res.json(product)

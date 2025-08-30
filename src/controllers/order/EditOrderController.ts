@@ -18,6 +18,7 @@ export class EditOrderController {
       total,
       payment,
       status,
+      boxes,
     } = req.body
 
     const editOrderService = new EditOrderService()
@@ -36,6 +37,7 @@ export class EditOrderController {
       total,
       payment,
       status,
+      boxes,
     })
 
     return res.json(order)

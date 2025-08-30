@@ -8,6 +8,7 @@ export class ListCategoryService {
         id: true,
         name: true,
         priority: true,
+        boxes: true,
       },
     })
     return categorys.sort((a, b) => a.priority - b.priority)
