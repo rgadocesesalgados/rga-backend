@@ -1,4 +1,4 @@
-import { Order } from '@prisma/client'
+import { Box, Order } from '@prisma/client'
 import { CakeCreate } from '../cake'
 import { ProductCreate } from '../product'
 import { PaymentCreate } from '../payment'
@@ -19,6 +19,14 @@ export interface OrderCreate
     | 'status'
   > {
   cakes?: CakeCreate[]
+  boxes?: {
+    products?: {
+      product_id?: string
+      quantity?: number
+      price?: number
+      total?: number
+    }[]
+  }[]
   products?: ProductCreate[]
   payments?: PaymentCreate[]
 }

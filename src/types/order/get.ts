@@ -1,4 +1,5 @@
 import { GetAddressOrder } from '../address-order'
+import { GetBox } from '../box/get'
 import { GetCake } from '../cake'
 import { GetClient } from '../client'
 import { GetOrderProduct } from '../order-product'
@@ -10,7 +11,7 @@ export interface GetOrder {
   address: GetAddressOrder
   bolo: GetCake[]
   orderProduct: GetOrderProduct[]
-  docesPP: GetOrderProduct[]
+  boxes: GetBox[]
   payment: GetPayment[]
   date: Date
   hour: string
