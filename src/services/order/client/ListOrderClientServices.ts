@@ -1,5 +1,6 @@
 import { prismaClient } from '../../../prisma'
 import { GetAddress } from '../../../types/address'
+import { GetBox } from '../../../types/box/get'
 import { GetCake } from '../../../types/cake'
 import { GetOrder } from '../../../types/order'
 import { GetOrderProduct } from '../../../types/order-product'
@@ -17,11 +18,34 @@ export class ListOrderClientService {
             address: true,
           },
         },
+        boxes: {
+          include: {
+            ordeProduct: {
+              include: {
+                product: {
+                  include: {
+                    category: {
+                      select: {
+                        id: true,
+                        name: true,
+                        priority: true,
+                        boxes: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
         orderProduct: {
+          where: { boxId: null },
           include: {
             product: {
               include: {
-                category: { select: { id: true, name: true, priority: true } },
+                category: {
+                  select: { id: true, name: true, priority: true, boxes: true },
+                },
               },
             },
           },
@@ -46,50 +70,49 @@ export class ListOrderClientService {
             } as GetPayment
           })
         }
+        const orderBoxGet = () => {
+          return order.boxes.reduce((acc, box) => {
+            acc.push({
+              id: box.id,
+              size: `${box.ordeProduct.reduce(
+                (acc, { quantity }) => acc + quantity,
+                0,
+              )}`,
+              category_id: box.ordeProduct[0].product.category.id,
+              products: box.ordeProduct.map((orderP) => ({
+                id: orderP.id,
+                product_id: orderP.product_id,
+                name: orderP.product.name,
+                price: orderP.price,
+                quantity: orderP.quantity,
+                total: orderP.total,
+              })),
+            })
+
+            return acc
+          }, [] as GetBox[])
+        }
 
         const orderProductGet = () => {
           return order.orderProduct.reduce((acc, orderProduct) => {
-            if (orderProduct.product.size !== 'PP') {
-              acc.push({
-                id: orderProduct.id,
-                product_id: orderProduct.product_id,
-                name: orderProduct.product.name,
-                price: orderProduct.price,
-                quantity: orderProduct.quantity,
-                category: {
-                  id: orderProduct.product.category.id,
-                  name: orderProduct.product.category.name,
-                  priority: orderProduct.product.category.priority,
-                },
-                min_quantity: orderProduct.product.min_quantity,
-                total: orderProduct.total,
-                banner: orderProduct.product.banner,
-              })
-            }
+            acc.push({
+              id: orderProduct.id,
+              product_id: orderProduct.product_id,
+              name: orderProduct.product.name,
+              price: orderProduct.price,
+              quantity: orderProduct.quantity,
+              category: {
+                id: orderProduct.product.category.id,
+                name: orderProduct.product.category.name,
+                priority: orderProduct.product.category.priority,
+                boxes: orderProduct.product.category.boxes,
+              },
+              min_quantity: orderProduct.product.min_quantity,
+              total: orderProduct.total,
+              banner: orderProduct.product.banner,
+              category_id: orderProduct.product.category.id,
+            })
 
-            return acc
-          }, [] as GetOrderProduct[])
-        }
-
-        const orderProductPPGet = () => {
-          return order.orderProduct.reduce((acc, orderProduct) => {
-            if (orderProduct.product.size === 'PP') {
-              acc.push({
-                id: orderProduct.id,
-                product_id: orderProduct.product_id,
-                name: orderProduct.product.name,
-                price: orderProduct.price,
-                quantity: orderProduct.quantity,
-                category: {
-                  id: orderProduct.product.category.id,
-                  name: orderProduct.product.category.name,
-                  priority: orderProduct.product.category.priority,
-                },
-                min_quantity: orderProduct.product.min_quantity,
-                total: orderProduct.total,
-                banner: orderProduct.product.banner,
-              })
-            }
             return acc
           }, [] as GetOrderProduct[])
         }
@@ -190,8 +213,8 @@ export class ListOrderClientService {
           status: order.status,
           payment: paymentsGet(),
           orderProduct: orderProductGet(),
-          docesPP: orderProductPPGet(),
           bolo: boloGet(),
+          boxes: orderBoxGet(),
         } as GetOrder
       })
     }

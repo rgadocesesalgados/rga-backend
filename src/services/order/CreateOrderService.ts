@@ -20,9 +20,9 @@ export class CreateOrderService {
     total = 0,
     status = 'RASCUNHO',
     payments = [],
+    boxes = [],
   }: OrderCreate) {
     if (!client_id) throw new Error('Cliente é obrigatório')
-
     const order = await prismaClient.order.create({
       data: {
         client: { connect: { id: client_id } },
@@ -33,6 +33,11 @@ export class CreateOrderService {
         ...this.#isDelivey(delivery, address_id, type_frete, value_frete),
         total,
         status,
+        boxes: {
+          create: boxes.map(({ products }) => ({
+            ordeProduct: { create: products },
+          })),
+        },
         orderProduct: {
           createMany: { data: products.length > 0 ? products : [] },
         },
@@ -54,7 +59,7 @@ export class CreateOrderService {
     delivery = false,
     address_id: string,
     type_frete: 'FRETE_MOTO' | 'FRETE_CARRO',
-    value_frete = 0
+    value_frete = 0,
   ) {
     if (delivery) {
       return {

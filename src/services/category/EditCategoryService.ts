@@ -1,14 +1,27 @@
 import { prismaClient } from '../../prisma'
 
 export class EditCategoryService {
-  async execute(id: string, name: string, priority: number) {
+  async execute(id: string, name: string, priority: number, boxes: number[]) {
     const categorys = (await prismaClient.category.findMany()).sort(
-      (a, b) => a.priority - b.priority
+      (a, b) => a.priority - b.priority,
     )
 
     const existCategory = categorys.find((category) => category.name === name)
+
+    if (existCategory.boxes.length === 0 && boxes.length > 0) {
+      throw new Error(
+        'Essa categoria foi criada sem caixa, você não adicionar mais caixas',
+      )
+    }
+
+    if (existCategory.boxes.length > 0 && boxes.length === 0) {
+      throw new Error(
+        'Essa categoria foi criada com caixas, você não pode removelas',
+      )
+    }
+
     const existCategoryInit = categorys.find(
-      (category) => category.priority === 0
+      (category) => category.priority === 0,
     )
 
     if (!existCategoryInit && priority > 0) {
@@ -16,7 +29,7 @@ export class EditCategoryService {
     }
 
     const categoryPriority = categorys.find(
-      (category) => category.priority === priority
+      (category) => category.priority === priority,
     )
 
     const categorySelect = categorys.find((category) => category.id === id)
@@ -37,7 +50,7 @@ export class EditCategoryService {
       priority < 0
     ) {
       throw new Error(
-        'Para ocultar uma categoria, ela deve estar no final da lista'
+        'Para ocultar uma categoria, ela deve estar no final da lista',
       )
     }
 
@@ -59,6 +72,7 @@ export class EditCategoryService {
       data: {
         name,
         priority,
+        boxes: { set: boxes },
       },
     })
 
