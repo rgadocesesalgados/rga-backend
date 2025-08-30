@@ -64,7 +64,6 @@ model Product {
   price         Float
   min_quantity  Int
   banner        String         @default("")
-  size          Size           @default(UNIT)
   category_name String
   category      Category       @relation(fields: [category_name], references: [name])
   created_at    DateTime       @default(now())
@@ -74,16 +73,6 @@ model Product {
   @@map("products")
 }
 
-enum Size {
-  PP
-  P
-  M
-  G
-  GG
-  UNIT
-  NOT
-}
-
 model Category {
   id         String    @id @default(uuid())
   name       String    @unique
@@ -91,8 +80,16 @@ model Category {
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now())
   product    Product[]
+  boxes      Int[]
 
   @@map("categories")
+}
+
+model Box {
+  id          String         @id @default(uuid())
+  ordeProduct OrderProduct[]
+  order       Order?         @relation(fields: [orderId], references: [id])
+  orderId     String?
 }
 
 model Bolo {
@@ -135,18 +132,18 @@ enum Massa {
 }
 
 model Topper {
-  id          String   @id @default(uuid())
+  id          String       @id @default(uuid())
   bolo        Bolo?
   tema        String
   name        String?
   idade       Int?
-  price       Float    @default(15)
+  price       Float        @default(15)
   description String?
-  recebido    Boolean  @default(false)
-  banner      String   @default("")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
-  fornecedor FORNECEDORES @default(FORNECEDOR_PRINCIPAL)
+  recebido    Boolean      @default(false)
+  banner      String       @default("")
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @default(now())
+  fornecedor  FORNECEDORES @default(FORNECEDOR_PRINCIPAL)
 
   @@map("toppers")
 }
@@ -176,6 +173,7 @@ model Order {
   client        Client         @relation(fields: [client_id], references: [id])
   address       Address?       @relation(fields: [address_id], references: [id])
   bolo          Bolo[]
+  boxes         Box[]
   orderProduct  OrderProduct[]
   payment       Payment[]
   client_id     String
@@ -233,8 +231,8 @@ enum PaymentType {
 
 model OrderProduct {
   id         String   @id @default(uuid())
-  order_id   String
-  order      Order    @relation(fields: [order_id], references: [id])
+  order_id   String?
+  order      Order?   @relation(fields: [order_id], references: [id])
   product_id String
   product    Product  @relation(fields: [product_id], references: [id])
   quantity   Int
@@ -242,6 +240,8 @@ model OrderProduct {
   total      Float
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
+  Box        Box?     @relation(fields: [boxId], references: [id], onDelete: Cascade)
+  boxId      String?
 
   @@map("order_products")
 }
