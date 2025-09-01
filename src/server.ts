@@ -7,7 +7,7 @@ const app = express()
 
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'development' ? '*' : '*',
+    origin: process.env.NODE_ENV === 'development' ? '*' : 'https://rga-delta.vercel.app',
   }),
 )
 
