@@ -14,7 +14,7 @@ export class FindUniqueOrderService {
         delivery: true,
         status: true,
         value_frete: true,
-        address: { select: { address_complete: true } },
+        address: { select: { address_complete: true, id: true } },
         type_frete: true,
         client: { select: { name: true, id: true, tel: true } },
         bolo: {
@@ -198,6 +198,7 @@ export class FindUniqueOrderService {
       id: orderId,
       logistic: type_frete,
       value_frete,
+      address_id: address.id,
     } as FormDataPedidos
   }
 }
