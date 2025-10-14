@@ -198,7 +198,7 @@ export class FindUniqueOrderService {
       id: orderId,
       logistic: type_frete,
       value_frete,
-      address_id: address.id,
+      address_id: address?.id,
     } as FormDataPedidos
   }
 }
