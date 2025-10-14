@@ -50,7 +50,10 @@ import { ListOutController } from './controllers/out/get'
 import { SearchClientController } from './controllers/searchClient/SearchClient'
 import { SearchAddressController } from './controllers/searchAddress/SearchAddress'
 import { ListOrderClientController } from './controllers/order/client/ListOrderClientController'
-import { FindUniqueOrderController } from './controllers/order/FindUniqueOrderController'
+import { FindUniqueOrderController as FindUniqueOrderControllerv1 } from './controllers/order/FindUniqueOrderController'
+import { ListOrdersController } from './v2/controllers/orders/ListOrdersController'
+import { FindUniqueOrderController } from './v2/controllers/orders/FindUniqueOrderController'
+import { ListOrdersOrganizationController } from './v2/controllers/orders/ListOrdersOrganizationController'
 
 const routes = Router()
 
@@ -62,7 +65,7 @@ routes.post(
   '/user',
   isAuthenticated,
   isAdmin,
-  new CreateUserController().handle
+  new CreateUserController().handle,
 )
 
 routes.post('/auth', new AuthUserController().handle)
@@ -73,7 +76,7 @@ routes.post(
   '/product',
   isAuthenticated,
   isAdmin,
-  new CreateProductController().handle
+  new CreateProductController().handle,
 )
 
 routes.get('/product', new ListProductController().handle)
@@ -82,21 +85,21 @@ routes.patch(
   '/product',
   isAuthenticated,
   isAdmin,
-  new EditeProductController().handle
+  new EditeProductController().handle,
 )
 
 routes.delete(
   '/product',
   isAuthenticated,
   isAdmin,
-  new RemoveProductController().handle
+  new RemoveProductController().handle,
 )
 
 routes.post(
   '/category',
   isAuthenticated,
   isAdmin,
-  new CreateCategoryController().handle
+  new CreateCategoryController().handle,
 )
 
 routes.get('/category', new ListCategoryController().handle)
@@ -105,21 +108,21 @@ routes.patch(
   '/category',
   isAuthenticated,
   isAdmin,
-  new EditCategoryController().handle
+  new EditCategoryController().handle,
 )
 
 routes.delete(
   '/category',
   isAuthenticated,
   isAdmin,
-  new RemoveCategoryController().handle
+  new RemoveCategoryController().handle,
 )
 
 routes.post(
   '/recheio',
   isAuthenticated,
   isAdmin,
-  new CreateRecheioController().handle
+  new CreateRecheioController().handle,
 )
 
 routes.get('/recheio', new ListRecheioController().handle)
@@ -128,21 +131,21 @@ routes.patch(
   '/recheio',
   isAuthenticated,
   isAdmin,
-  new EditRecheioController().handle
+  new EditRecheioController().handle,
 )
 
 routes.delete(
   '/recheio',
   isAuthenticated,
   isAdmin,
-  new RemoveRecheioController().handle
+  new RemoveRecheioController().handle,
 )
 
 routes.post(
   '/address',
   isAuthenticated,
   isAdmin,
-  new CreateAddressController().handle
+  new CreateAddressController().handle,
 )
 
 routes.get('/address', isAuthenticated, new ListAddressController().handle)
@@ -153,14 +156,14 @@ routes.delete(
   '/address',
   isAuthenticated,
   isAdmin,
-  new RemoveAddressController().handle
+  new RemoveAddressController().handle,
 )
 
 routes.post(
   '/client',
   isAuthenticated,
   isAdmin,
-  new CreateClientController().handle
+  new CreateClientController().handle,
 )
 
 routes.get('/client', new ListClientController().handle)
@@ -169,21 +172,21 @@ routes.patch(
   '/client',
   isAuthenticated,
   isAdmin,
-  new EditClientController().handle
+  new EditClientController().handle,
 )
 
 routes.delete(
   '/client',
   isAuthenticated,
   isAdmin,
-  new DeleteClientController().handle
+  new DeleteClientController().handle,
 )
 
 routes.post(
   '/order',
   isAuthenticated,
 
-  new CreateOrderController().handle
+  new CreateOrderController().handle,
 )
 
 routes.get('/order', isAuthenticated, new ListOrderController().handle)
@@ -194,7 +197,7 @@ routes.delete(
   '/order',
   isAuthenticated,
   isAdmin,
-  new RemoveOrderController().handle
+  new RemoveOrderController().handle,
 )
 
 routes.post('/bolo', isAuthenticated, new CreateBoloController().handle)
@@ -202,26 +205,26 @@ routes.post('/bolo', isAuthenticated, new CreateBoloController().handle)
 routes.patch(
   '/bolo/add-recheio',
   isAuthenticated,
-  new AddRecheioController().handle
+  new AddRecheioController().handle,
 )
 
 routes.patch(
   '/bolo/delete-recheio',
   isAuthenticated,
-  new DeleteRecheioController().handle
+  new DeleteRecheioController().handle,
 )
 
 routes.post(
   '/bolo/add-topper',
   isAuthenticated,
-  new CreateTopperController().handle
+  new CreateTopperController().handle,
 )
 
 routes.delete(
   '/bolo/delete-topper',
   isAuthenticated,
 
-  new DeleteTopperController().handle
+  new DeleteTopperController().handle,
 )
 
 routes.get('/topper', isAuthenticated, new ToDoTopperController().handle)
@@ -234,7 +237,7 @@ routes.post('/relatorios', isAuthenticated, new RelatoriosController().handle)
 routes.patch(
   '/relatorios',
   isAuthenticated,
-  new ToggleStatusController().handle
+  new ToggleStatusController().handle,
 )
 
 routes.get('/delivery', isAuthenticated, new ListDesliveryController().handle)
@@ -243,26 +246,26 @@ routes.get(
   '/financial-report',
   isAuthenticated,
   isAdmin,
-  new ListFinancialReportController().handle
+  new ListFinancialReportController().handle,
 )
 
 routes.post(
   '/supplier',
   isAuthenticated,
   isAdmin,
-  new CreateSupplierController().handle
+  new CreateSupplierController().handle,
 )
 routes.get(
   '/supplier',
   isAuthenticated,
   isAdmin,
-  new ListSupplierController().handle
+  new ListSupplierController().handle,
 )
 routes.delete(
   '/supplier/:id',
   isAuthenticated,
   isAdmin,
-  new RemoveSupplierController().handle
+  new RemoveSupplierController().handle,
 )
 
 routes.post('/out', isAuthenticated, isAdmin, new PostOutController().handle)
@@ -272,24 +275,38 @@ routes.get('/out', isAuthenticated, isAdmin, new ListOutController().handle)
 routes.get(
   '/search-client/:query',
   isAuthenticated,
-  new SearchClientController().handle
+  new SearchClientController().handle,
 )
 
 routes.get(
   '/search-address/:query',
   isAuthenticated,
-  new SearchAddressController().handle
+  new SearchAddressController().handle,
 )
 
 routes.get(
   '/order/:clientId',
   isAuthenticated,
-  new ListOrderClientController().handle
+  new ListOrderClientController().handle,
 )
 
 routes.get(
   '/orders/:id',
   isAuthenticated,
-  new FindUniqueOrderController().handle
+  new FindUniqueOrderControllerv1().handle,
+)
+
+routes.get('/v2/orders', isAuthenticated, new ListOrdersController().handle)
+
+routes.get(
+  '/v2/orders/organization',
+  isAuthenticated,
+  new ListOrdersOrganizationController().handle,
+)
+
+routes.get(
+  '/v2/orders/:id',
+  isAuthenticated,
+  new FindUniqueOrderController().handle,
 )
 export { routes }
