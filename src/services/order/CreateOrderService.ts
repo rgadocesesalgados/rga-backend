@@ -50,9 +50,26 @@ export class CreateOrderService {
           },
         },
       },
+      select: {
+        date: true,
+        id: true,
+        client: { select: { name: true } },
+        total: true,
+        payment: { where: { paid: true }, select: { value: true } },
+        status: true,
+        updated_at: true,
+      },
     })
 
-    return order
+    return {
+      id: order.id,
+      name: order.client.name,
+      total: order.total,
+      paid: order.payment.reduce((acc, { value }) => acc + value, 0),
+      status: order.status,
+      date: order.date,
+      updated_at: order.updated_at,
+    }
   }
 
   #isDelivey(

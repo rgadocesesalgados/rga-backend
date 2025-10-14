@@ -45,11 +45,29 @@ export class EditOrderService {
         address_id: address.address_id,
         type_frete: address.type_frete,
         value_frete: address.value_frete,
+        updated_at: new Date(),
         ...data,
+      },
+      select: {
+        date: true,
+        id: true,
+        client: { select: { name: true } },
+        total: true,
+        payment: { where: { paid: true }, select: { value: true } },
+        status: true,
+        updated_at: true,
       },
     })
 
-    return order
+    return {
+      id: order.id,
+      name: order.client.name,
+      total: order.total,
+      paid: order.payment.reduce((acc, { value }) => acc + value, 0),
+      status: order.status,
+      date: order.date,
+      updated_at: order.updated_at,
+    }
   }
 
   #haveCake(cakes: CakeCreate[]) {
