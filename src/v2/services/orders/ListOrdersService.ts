@@ -37,10 +37,18 @@ export class ListOrdersService {
       },
     )
 
-    return orders.sort((a) => {
+    orders.sort((a) => {
       if (a.status === 'RASCUNHO') return -1
 
       return 0
     })
+
+    orders.sort((a) => {
+      if (a.status === 'RASCUNHO') return -1
+
+      return 0
+    })
+
+    return orders
   }
 }
