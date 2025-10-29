@@ -113,17 +113,23 @@ export class FindUniqueOrderService {
         decoracao: description ?? '',
         tem_topper: !!topper,
         recheios: recheio,
-        topper: topper ?? {
-          fornecedor: 'FORNECEDOR_PRINCIPAL',
-          banner: '',
-          description: '',
-          id: '',
-          idade: '',
-          name: '',
-          price: 18,
-          recebido: false,
-          tema: '',
-        },
+        topper: topper
+          ? {
+              ...topper,
+              description: topper.description ?? '',
+              name: topper.name ?? '',
+            }
+          : {
+              fornecedor: 'FORNECEDOR_PRINCIPAL',
+              banner: '',
+              description: '',
+              id: '',
+              idade: '',
+              name: '',
+              price: 18,
+              recebido: false,
+              tema: '',
+            },
         ...rest,
       })),
       client: { id: client.id, name: client.name, tel: client.tel },
@@ -193,12 +199,12 @@ export class FindUniqueOrderService {
       }),
       status,
       total,
-      address: address?.address_complete,
+      address: delivery ? address?.address_complete : '',
       cor_forminhas,
       id: orderId,
       logistic: type_frete,
-      value_frete,
-      address_id: address?.id,
+      value_frete: delivery ? value_frete : 0,
+      address_id: delivery ? address?.id : '',
     } as FormDataPedidos
   }
 }
