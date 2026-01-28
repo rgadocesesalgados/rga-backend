@@ -79,7 +79,7 @@ routes.post(
   new CreateProductController().handle,
 )
 
-routes.get('/product', new ListProductController().handle)
+routes.get('/product', isAuthenticated, new ListProductController().handle)
 
 routes.patch(
   '/product',
@@ -102,7 +102,7 @@ routes.post(
   new CreateCategoryController().handle,
 )
 
-routes.get('/category', new ListCategoryController().handle)
+routes.get('/category', isAuthenticated, new ListCategoryController().handle)
 
 routes.patch(
   '/category',
@@ -125,7 +125,7 @@ routes.post(
   new CreateRecheioController().handle,
 )
 
-routes.get('/recheio', new ListRecheioController().handle)
+routes.get('/recheio', isAuthenticated, new ListRecheioController().handle)
 
 routes.patch(
   '/recheio',
@@ -166,7 +166,7 @@ routes.post(
   new CreateClientController().handle,
 )
 
-routes.get('/client', new ListClientController().handle)
+routes.get('/client', isAuthenticated, new ListClientController().handle)
 
 routes.patch(
   '/client',
