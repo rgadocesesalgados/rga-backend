@@ -238,7 +238,7 @@ export class RelatoriosService {
         topper: bolo.topper,
       })),
       toppers: toppers.map((topper) => ({
-        client: topper.bolo.order.client,
+        client: topper.bolo.order.client.name,
         date: topper.bolo.order.date,
         hour: topper.bolo.order.hour,
         tema: topper.tema,
